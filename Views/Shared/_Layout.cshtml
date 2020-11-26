@@ -17,16 +17,42 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Survey Portal", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Admin
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Manage Users", "Index", "Users")</li>
+                            <li>@Html.ActionLink("Manage Option Types", "Index", "OptionType")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Survey
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Add New Survey", "Create", "Survey")</li>
+                            <li>@Html.ActionLink("Manage Survey", "Manage", "Survey")</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
-    </div>
+    </div>*
+
+
+
+
+
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -40,3 +66,42 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+
+@*<div>
+        <a href="#" style="margin-top:29px;margin-left:15px;"
+           class="btn btn-info add-row" role="button"> <i class="fa fa-plus"></i> Add Row</a>
+    </div>
+    <div id="firstDriver_initialForm">
+        <form method="post" id="frmElements" class="form-group">
+            @Html.HiddenFor(model => model.IncrementValue)
+            <div class="container">
+                <div class="dynamic-rows">
+                    <div class="row" id="template" data-order="0">
+                        <div class="row filter">
+                            <div class="col-md-3">
+                                <label class="bold">Enter Name:</label>
+                                @Html.TextBoxFor(model => model.lstTemplateModels.Name, new { @class = "form-control demo", placeholder = "Enter Name" })
+                            </div>
+                            <div class="col-md-3">
+                                <label class="bold">Remember Me:</label>
+                                @Html.CheckBoxFor(model => model.lstTemplateModels.IsChecked, new { @class = "form-control form-check-input", @style = "margin-top:12px;height:20px;" })
+                            </div>
+                            <div class="col-md-3">
+                                <label class="bold">DropDown:</label>
+                                @Html.DropDownListFor(model => model.lstTemplateModels.DropDownValue, new List<SelectListItem>
+                           {
+                               new SelectListItem {Text="Single",Value="SINGLE"},
+                               new SelectListItem {Text="Married",Value="MARRIED"}
+                           }, "Select Status", new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-3">
+                                <button style="margin-top:31px;" type="submit" class="btn btn-danger delete-row" data-val="0"><i class="fa fa-trash"></i> Delete Row</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <button style="margin-top:18px;margin-left:35px;" id="saveTemplate" type="submit" class="btn btn-success">Submit</button>*@
