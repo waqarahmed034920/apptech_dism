@@ -121,6 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OptionTypeController.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\SurveyQuestionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -187,6 +188,9 @@
     <Content Include="Views\Survey\Create.cshtml" />
     <Content Include="Views\Survey\Edit.cshtml" />
     <Content Include="Views\SurveyQuestion\AddQuestion.cshtml" />
+    <Content Include="Views\OptionType\Index.cshtml" />
+    <Content Include="Views\OptionType\Edit.cshtml" />
+    <Content Include="Views\OptionType\Create.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

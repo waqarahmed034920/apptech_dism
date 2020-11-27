@@ -31,5 +31,25 @@ namespace SurveyPortal.Controllers
             ViewBag.Message = "Adding questions in survey: " + objSurvey.Name;
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Insert(FormCollection form)
+        {
+            try
+            {
+                SurveyQuestion question = new SurveyQuestion();
+                question.Question = form["Question"];
+                question.OptionTypeId = Convert.ToInt32(form["OptionTypeId"]);
+                question.NoOfOptions = Convert.ToInt32(form["NoOfOptions"]);
+                string options = "";
+                question.Options = options;
+                return View(question);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }
