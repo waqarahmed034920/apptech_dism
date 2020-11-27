@@ -127,10 +127,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Interface\IRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\OptionTypeRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\SurveyQuestionRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyResponseRepository.cs" />
     <Compile Include="Models\OptionType.cs" />
     <Compile Include="Models\Survey.cs" />
+    <Compile Include="Models\SurveyQuestion.cs" />
     <Compile Include="Models\SurveyResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -183,10 +186,9 @@
     <Content Include="Views\Survey\Manage.cshtml" />
     <Content Include="Views\Survey\Create.cshtml" />
     <Content Include="Views\Survey\Edit.cshtml" />
+    <Content Include="Views\SurveyQuestion\AddQuestion.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\SurveyQuestion\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
