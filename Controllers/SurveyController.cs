@@ -12,9 +12,11 @@ namespace SurveyPortal.Controllers
     public class SurveyController : Controller
     {
         IRepository<Survey> surveyRepository;
+        ISurveyQuestion surveyQuestionRepository;
         public SurveyController()
         {
             surveyRepository = new SurveyRepository();
+            surveyQuestionRepository = new SurveyQuestionRepository();
         }
         // GET: Survey
         public ActionResult Manage()
@@ -23,7 +25,15 @@ namespace SurveyPortal.Controllers
             return View(lst);
         }
 
-
+        public ActionResult Preview(int id)
+        {
+            Survey survey = this.surveyRepository.GetById(id);
+            List<SurveyQuestion> questions = this.surveyQuestionRepository.GetBySurveyId(id);
+            ViewModelSurveyQuestion viewModel = new ViewModelSurveyQuestion();
+            viewModel.Survey = survey;
+            viewModel.Questions = questions;
+            return View(viewModel);
+        }
         public ActionResult Edit(int id)
         {
             Survey model = this.surveyRepository.GetById(id);

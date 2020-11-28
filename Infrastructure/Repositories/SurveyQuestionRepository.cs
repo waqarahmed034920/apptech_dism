@@ -9,7 +9,7 @@ using System.Web;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
-    public class SurveyQuestionRepository : IRepository<SurveyQuestion>
+    public class SurveyQuestionRepository : ISurveyQuestion
     {
         public SqlCommand cmd;
         public SurveyQuestionRepository()
@@ -100,6 +100,38 @@ namespace SurveyPortal.Infrastructure.Repositories
                 myReader.Close();
                 return objsurveyquestion;
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public List<SurveyQuestion> GetBySurveyId(int SurveyId)
+        {
+            try
+            {
+                cmd.Connection.Open();
+                cmd.CommandText = "select * from SurveyQuestion where SurveyId = " + SurveyId.ToString();
+                SqlDataReader myReader = cmd.ExecuteReader();
+                List<SurveyQuestion> SurveyQuestion = new List<SurveyQuestion>();
+                while (myReader.Read())
+                {
+                    SurveyQuestion objSurveyQuestion = new SurveyQuestion();
+                    objSurveyQuestion.Id = Convert.ToInt32(myReader["id"]);
+                    objSurveyQuestion.SurveyId = Convert.ToInt32(myReader["SurveyId"].ToString());
+                    objSurveyQuestion.Question = myReader["Question"].ToString();
+                    objSurveyQuestion.OptionTypeId = Convert.ToInt32(myReader["OptionTypeId"].ToString());
+                    objSurveyQuestion.NoOfOptions = Convert.ToInt32(myReader["NoOfOptions"].ToString());
+                    objSurveyQuestion.Options = (myReader["Options"].ToString());
+                    SurveyQuestion.Add(objSurveyQuestion);
+                }
+                myReader.Close();
+                return SurveyQuestion;
             }
             catch (Exception ex)
             {

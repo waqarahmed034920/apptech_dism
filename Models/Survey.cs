@@ -14,10 +14,12 @@ namespace SurveyPortal.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Start date is required")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
         
         [Required(ErrorMessage = "End date is required")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
         [Display(Name = "Back Button")]

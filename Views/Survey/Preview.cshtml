@@ -1,0 +1,78 @@
+﻿@model SurveyPortal.Models.ViewModelSurveyQuestion
+
+@functions {
+    public string GetQuestion(int index)
+    {
+        return Model.Questions[index].Question;
+    }
+}
+
+
+<h2>
+    Preview: @Html.DisplayFor(model => model.Survey.Name)
+</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Survey.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Survey.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Survey.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Survey.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Survey.BackButton)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Survey.BackButton)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Survey.Reviewable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Survey.Reviewable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Survey.InternalOnly)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Survey.InternalOnly)
+        </dd>
+
+    </dl>
+    <div>
+        @{
+            int index = 0;
+            <div>
+                @GetQuestion(index);
+            </div>
+        }
+        <div>
+            @for (int i = 0; i < Model.Questions[0].NoOfOptions; i++)
+            {
+                @Html.DisplayFor(model => model.Questions[0].Options.Split('!')[i]);
+            }
+        </div>
+        <div>
+            <button class="btn btn-primary" onclick="GetQuestion(index--)">Previous</button>
+            <button class="btn btn-primary">Next</button>
+        </div>
+    </div>
+</div>

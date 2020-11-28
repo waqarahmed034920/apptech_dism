@@ -128,6 +128,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Interface\IRepository.cs" />
+    <Compile Include="Infrastructure\Interface\ISurveyQuestion.cs" />
     <Compile Include="Infrastructure\Repositories\OptionTypeRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyQuestionRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyRepository.cs" />
@@ -136,6 +137,8 @@
     <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\SurveyQuestion.cs" />
     <Compile Include="Models\SurveyResponse.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ViewModelSurveyQuestion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -191,6 +194,7 @@
     <Content Include="Views\OptionType\Index.cshtml" />
     <Content Include="Views\OptionType\Edit.cshtml" />
     <Content Include="Views\OptionType\Create.cshtml" />
+    <Content Include="Views\Survey\Preview.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

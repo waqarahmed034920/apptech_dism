@@ -14,7 +14,7 @@ namespace SurveyPortal.Controllers
 
         IRepository<OptionType> optionTypeRepository = new OptionTypeRepository();
         IRepository<Survey> surveyRepository = new SurveyRepository();
-        IRepository<SurveyQuestion> surveyQuestionRepository = new SurveyQuestionRepository();
+        ISurveyQuestion surveyQuestionRepository = new SurveyQuestionRepository();
         // GET: SurveyQuestion
         public ActionResult Index()
         {
@@ -29,6 +29,7 @@ namespace SurveyPortal.Controllers
             Survey objSurvey = this.surveyRepository.GetById(SurveyId);
             ViewBag.ListOfOptionTypes = lstOptions;
             ViewBag.Message = "Adding questions in survey: " + objSurvey.Name;
+            ViewBag.SurveyId = SurveyId;
             return View();
         }
 
@@ -39,11 +40,20 @@ namespace SurveyPortal.Controllers
             {
                 SurveyQuestion question = new SurveyQuestion();
                 question.Question = form["Question"];
+                question.SurveyId = Convert.ToInt32(form["SurveyId"]);
                 question.OptionTypeId = Convert.ToInt32(form["OptionTypeId"]);
                 question.NoOfOptions = Convert.ToInt32(form["NoOfOptions"]);
                 string options = "";
+                foreach(var k in form.Keys)
+                {
+                    if (k.ToString().IndexOf("option_") > -1)
+                    {
+                        options += form[k.ToString()] + "!";
+                    }
+                }
                 question.Options = options;
-                return View(question);
+                bool output = surveyQuestionRepository.Insert(question);
+                return RedirectToAction("Manage", "Survey");
             }
             catch (Exception ex)
             {

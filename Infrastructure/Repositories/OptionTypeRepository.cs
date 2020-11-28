@@ -18,7 +18,6 @@ namespace SurveyPortal.Infrastructure.Repositories
             cmd = new SqlCommand();
             cmd.Connection = connection;
             cmd.CommandType = CommandType.Text;
-
         }
         public bool Delete(int Id)
         {

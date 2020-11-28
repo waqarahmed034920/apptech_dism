@@ -34,6 +34,9 @@
 @foreach (var item in Model) {
 <tr>
     <td>
+        +
+    </td>
+    <td>
         @Html.DisplayFor(modelItem => item.Name)
     </td>
     <td>
@@ -53,9 +56,8 @@
     </td>
     <td>
         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "View", new { id = item.Id }) |
+        @Html.ActionLink("Preview", "Preview", new { id = item.Id }) |
         @Html.ActionLink("Add Questions", "AddQuestion", "SurveyQuestion", new { SurveyId = item.Id }, null)
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
     </td>
 </tr>
 }
