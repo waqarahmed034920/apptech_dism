@@ -30,7 +30,7 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("Manage Users", "Index", "Users")</li>
+                            <li>@Html.ActionLink("Manage Users", "Index", "User")</li>
                             <li>@Html.ActionLink("Manage Option Types", "Index", "OptionType")</li>
                         </ul>
                     </li>
@@ -44,6 +44,10 @@
                             <li>@Html.ActionLink("Manage Survey", "Manage", "Survey")</li>
                         </ul>
                     </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Register", "Register", "User", null, new { @class="glyphicon glyphicon-user"})</li>
+                    <li>@Html.ActionLink("Login", "Login", "User", null, new { @class= "glyphicon glyphicon-log-in" })</li>
                 </ul>
             </div>
         </div>

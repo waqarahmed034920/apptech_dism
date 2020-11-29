@@ -25,7 +25,7 @@ namespace SurveyPortal.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("server=waqar-pc\\sqlexpress; Database=surveyportal; trusted_connection=true;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=localhost; Database=surveyportal; trusted_connection=true;")]
         public string connectionstring {
             get {
                 return ((string)(this["connectionstring"]));

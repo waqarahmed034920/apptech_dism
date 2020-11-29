@@ -51,7 +51,7 @@ namespace SurveyPortal.Controllers
                         options += form[k.ToString()] + "!";
                     }
                 }
-                question.Options = options;
+                question.Options = options.TrimEnd('!');
                 bool output = surveyQuestionRepository.Insert(question);
                 return RedirectToAction("Manage", "Survey");
             }
