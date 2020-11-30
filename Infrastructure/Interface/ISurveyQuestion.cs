@@ -9,6 +9,7 @@ namespace SurveyPortal.Infrastructure.Interface
 {
     public interface ISurveyQuestion : IRepository<SurveyQuestion>
     {
-        List<SurveyQuestion> GetBySurveyId(int SurveyId);
+        List<SurveyQuestion> GetQuestionsBySurveyId(int SurveyId);
+
     }
 }

@@ -111,7 +111,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             }
         }
 
-        public List<SurveyQuestion> GetBySurveyId(int SurveyId)
+        public List<SurveyQuestion> GetQuestionsBySurveyId(int SurveyId)
         {
             try
             {

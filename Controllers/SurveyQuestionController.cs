@@ -21,6 +21,24 @@ namespace SurveyPortal.Controllers
             return View();
         }
 
+        public ActionResult ListOfQuestionBySurvey(int SurveyId)
+        {
+            List<SurveyQuestion> listSurveyQuestions = this.surveyQuestionRepository.GetQuestionsBySurveyId(SurveyId);
+            return View(listSurveyQuestions);
+        }
+        public ActionResult Edit(int id)
+        {
+            SurveyQuestion model = this.surveyQuestionRepository.GetById(id);
+            List<OptionType> lstOptions = this.optionTypeRepository.GetAll();
+            lstOptions.Insert(0, new OptionType() { Id = 0, Name = "Please select" });
+
+            Survey objSurvey = this.surveyRepository.GetById(model.SurveyId);
+            ViewBag.ListOfOptionTypes = lstOptions;
+            ViewBag.Message = "Edit questions in survey: " + objSurvey.Name;
+            ViewBag.SurveyId = model.SurveyId;
+
+            return View(model);
+        }
         public ActionResult AddQuestion(int SurveyId)
         {
             List<OptionType> lstOptions = this.optionTypeRepository.GetAll();
@@ -34,7 +52,7 @@ namespace SurveyPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult Insert(FormCollection form)
+        public ActionResult AddQuestion(FormCollection form)
         {
             try
             {
@@ -53,7 +71,7 @@ namespace SurveyPortal.Controllers
                 }
                 question.Options = options.TrimEnd('!');
                 bool output = surveyQuestionRepository.Insert(question);
-                return RedirectToAction("Manage", "Survey");
+                return RedirectToAction("ListOfQuestionBySurvey", new { SurveyId = question.SurveyId });
             }
             catch (Exception ex)
             {

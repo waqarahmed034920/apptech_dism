@@ -7,13 +7,19 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm("Insert", "OptionType", FormMethod.Post)) 
+@using (Html.BeginForm("Create", "OptionType", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>OptionType</h4>
-        <hr />
+        @if (ViewBag.Message != null)
+        {
+            <div role="alert" class="alert alert-success">
+                @ViewBag.Message
+            </div>
+        }
+
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })

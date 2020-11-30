@@ -27,7 +27,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "ConfirmDelete()" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return ConfirmDelete()" })
             </td>
         </tr>
     }

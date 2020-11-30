@@ -57,7 +57,7 @@
     <td>
         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
         @Html.ActionLink("Preview", "Preview", new { id = item.Id }) |
-        @Html.ActionLink("Add Questions", "AddQuestion", "SurveyQuestion", new { SurveyId = item.Id }, null)
+        @Html.ActionLink("Manage Questions", "ListOfQuestionBySurvey", "SurveyQuestion", new { SurveyId = item.Id }, null)
     </td>
 </tr>
 }

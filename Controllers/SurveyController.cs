@@ -28,7 +28,7 @@ namespace SurveyPortal.Controllers
         public ActionResult Preview(int id)
         {
             Survey survey = this.surveyRepository.GetById(id);
-            List<SurveyQuestion> questions = this.surveyQuestionRepository.GetBySurveyId(id);
+            List<SurveyQuestion> questions = this.surveyQuestionRepository.GetQuestionsBySurveyId(id);
             ViewModelSurveyQuestion viewModel = new ViewModelSurveyQuestion();
             viewModel.Survey = survey;
             viewModel.Questions = questions;
@@ -40,50 +40,47 @@ namespace SurveyPortal.Controllers
             return View(model);
         }
 
-        public ActionResult UpdateSurvey(Survey model)
+        [HttpPost]
+        public ActionResult Edit(Survey model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                bool output = this.surveyRepository.Update(model);
-                if (output == true)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Manage");
+                    bool output = this.surveyRepository.Update(model);
+                    ViewBag.Message = "Record updated successfully.";
                 }
-                else
-                {
-                    return RedirectToAction("Edit", new { id = model.Id });
-                }
+                return View(model);
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("Edit", new { id = model.Id });
+                ViewBag.Message = ex.Message;
+                return View(model);
             }
         }
 
-        public ActionResult Create(Survey model)
+        public ActionResult Create()
         {
-            ViewBag.Message = "Create New Survey.";
+            Survey model = new Survey();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult SaveSurvey(Survey model)
+        public ActionResult Create(Survey model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                bool output = this.surveyRepository.Insert(model);
-                if (output == true)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Manage");
+                    bool output = this.surveyRepository.Insert(model);
+                    ViewBag.Message = "Record addded successfully.";
                 }
-                else
-                {
-                    return RedirectToAction("Create", model);
-                }
+                return View(model);
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("Create", model);
+                ViewBag.Message = ex.Message;
+                return View(model);
             }
         }
 

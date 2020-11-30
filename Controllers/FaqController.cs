@@ -3,39 +3,38 @@ using SurveyPortal.Infrastructure.Repositories;
 using SurveyPortal.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SurveyPortal.Controllers
 {
-    public class OptionTypeController : Controller
+    public class FaqController : Controller
     {
-        IRepository<OptionType> optionTypeRepository;
-        public OptionTypeController()
+        IRepository<FAQ> faqRepository;
+        public FaqController()
         {
-            optionTypeRepository = new OptionTypeRepository();
+            this.faqRepository = new FAQRepository();
         }
-        // GET: OptionType
+        // GET: Faq
         public ActionResult Index()
         {
-            List<OptionType> modelList = this.optionTypeRepository.GetAll();
-            return View(modelList);
+            List<FAQ> faqList = this.faqRepository.GetAll();
+            return View(faqList);
         }
 
         public ActionResult Create()
         {
-            return View();
+            FAQ model = new FAQ();
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Create(OptionType model)
+        public ActionResult Create(FAQ model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    this.optionTypeRepository.Insert(model);
+                    this.faqRepository.Insert(model);
                     ViewBag.Message = "Record addded successfully.";
                 }
                 return View(model);
@@ -49,18 +48,18 @@ namespace SurveyPortal.Controllers
 
         public ActionResult Edit(int id)
         {
-            OptionType model = this.optionTypeRepository.GetById(id);
+            FAQ model = this.faqRepository.GetById(id);
             return View(model);
         }
 
-        [HttpPost]public ActionResult Edit(OptionType model)
+        [HttpPost]public ActionResult Edit(FAQ model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    this.optionTypeRepository.Insert(model);
-                    ViewBag.Message = "Record addded successfully.";
+                    this.faqRepository.Update(model);
+                    ViewBag.Message = "Record updated successfully.";
                 }
                 return View(model);
             }
@@ -73,8 +72,9 @@ namespace SurveyPortal.Controllers
 
         public ActionResult Delete(int id)
         {
-            this.optionTypeRepository.Delete(id);
+            this.faqRepository.Delete(id);
             return RedirectToAction("Index");
         }
+
     }
 }

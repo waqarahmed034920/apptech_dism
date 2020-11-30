@@ -4,15 +4,20 @@
     ViewBag.Title = "Create";
 }
 
-<h2>@ViewBag.Message</h2>
+<h2>Create Survey</h2>
 
 
-@using (Html.BeginForm("SaveSurvey", "Survey", FormMethod.Post)) 
+@using (Html.BeginForm("Create", "Survey", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Survey</h4>
+        @if (ViewBag.Message != null)
+        {
+            <div role="alert" class="alert alert-success">
+                @ViewBag.Message
+            </div>
+        }
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

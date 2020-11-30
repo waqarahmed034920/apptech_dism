@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="connectionstring" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">server=localhost; Database=surveyportal; trusted_connection=true;</Value>
+      <Value Profile="(Default)">server=waqar-pc\sqlexpress; Database=surveyportal; trusted_connection=true;</Value>
     </Setting>
   </Settings>
 </SettingsFile>
