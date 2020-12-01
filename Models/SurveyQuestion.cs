@@ -18,5 +18,9 @@ namespace SurveyPortal.Models
         [Display(Name = "No Of Options")] 
         public int NoOfOptions { get; set; }
         public string Options { get; set; }
+        
+        [Display(Name = "Option Type")]
+        public string OptionTypeName { get; set; }
+
     }
 }

@@ -201,6 +201,7 @@
     <Content Include="Views\Faq\Create.cshtml" />
     <Content Include="Views\Faq\Edit.cshtml" />
     <Content Include="Views\SurveyQuestion\ListOfQuestionBySurvey.cshtml" />
+    <Content Include="Views\SurveyQuestion\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

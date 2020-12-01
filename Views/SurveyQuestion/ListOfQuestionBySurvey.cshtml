@@ -12,45 +12,38 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.SurveyId)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Question)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OptionTypeId)
+            @Html.DisplayNameFor(model => model.OptionTypeName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.NoOfOptions)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Options)
-        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SurveyId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Question)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OptionTypeId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NoOfOptions)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Options)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OptionTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoOfOptions)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id, SurveyId = Model.First().SurveyId }, new { @onclick = "return ConfirmDelete()" })
+            </td>
+        </tr>
+    }
 
 </table>
+
+<div>
+    @Html.ActionLink("Back to Surveys", "Manage", "Survey")
+</div>

@@ -12,19 +12,27 @@ namespace SurveyPortal.Controllers
     public class SurveyQuestionController : Controller
     {
 
-        IRepository<OptionType> optionTypeRepository = new OptionTypeRepository();
-        IRepository<Survey> surveyRepository = new SurveyRepository();
-        ISurveyQuestion surveyQuestionRepository = new SurveyQuestionRepository();
-        // GET: SurveyQuestion
-        public ActionResult Index()
-        {
-            return View();
-        }
+        IRepository<OptionType> optionTypeRepository;
+        IRepository<Survey> surveyRepository;
+        ISurveyQuestion surveyQuestionRepository;
 
+        public SurveyQuestionController()
+        {
+            optionTypeRepository = new OptionTypeRepository();
+            surveyRepository = new SurveyRepository();
+            surveyQuestionRepository = new SurveyQuestionRepository();
+        }
+        // GET: SurveyQuestion
         public ActionResult ListOfQuestionBySurvey(int SurveyId)
         {
             List<SurveyQuestion> listSurveyQuestions = this.surveyQuestionRepository.GetQuestionsBySurveyId(SurveyId);
             return View(listSurveyQuestions);
+        }
+
+        public ActionResult Delete(int id, int SurveyId)
+        {
+            this.surveyQuestionRepository.Delete(id);
+            return RedirectToAction("ListOfQuestionBySurvey", new { SurveyId = SurveyId});
         }
         public ActionResult Edit(int id)
         {
@@ -34,10 +42,48 @@ namespace SurveyPortal.Controllers
 
             Survey objSurvey = this.surveyRepository.GetById(model.SurveyId);
             ViewBag.ListOfOptionTypes = lstOptions;
-            ViewBag.Message = "Edit questions in survey: " + objSurvey.Name;
+            ViewBag.Heading = "Edit questions in survey: " + objSurvey.Name;
             ViewBag.SurveyId = model.SurveyId;
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(FormCollection form)
+        {
+            try
+            {
+                List<OptionType> lstOptions = this.optionTypeRepository.GetAll();
+                lstOptions.Insert(0, new OptionType() { Id = 0, Name = "Please select" });
+
+                SurveyQuestion question = new SurveyQuestion();
+                question.Id = Convert.ToInt32(form["Id"]);
+                question.Question = form["Question"];
+                question.SurveyId = Convert.ToInt32(form["SurveyId"]);
+                question.OptionTypeId = Convert.ToInt32(form["OptionTypeId"]);
+                question.NoOfOptions = Convert.ToInt32(form["NoOfOptions"]);
+                ViewBag.SurveyId = question.SurveyId;
+                Survey objSurvey = this.surveyRepository.GetById(question.SurveyId);
+                ViewBag.ListOfOptionTypes = lstOptions;
+
+                string options = "";
+                foreach (var k in form.Keys)
+                {
+                    if (k.ToString().IndexOf("option_") > -1)
+                    {
+                        options += form[k.ToString()] + "!";
+                    }
+                }
+                question.Options = options.TrimEnd('!');
+                bool output = surveyQuestionRepository.Update(question);
+                ViewBag.Message = "Question updated successfully.";
+                ViewBag.Heading = "Edit questions in survey: " + objSurvey.Name;
+                return View(question);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public ActionResult AddQuestion(int SurveyId)
         {
@@ -46,7 +92,7 @@ namespace SurveyPortal.Controllers
 
             Survey objSurvey = this.surveyRepository.GetById(SurveyId);
             ViewBag.ListOfOptionTypes = lstOptions;
-            ViewBag.Message = "Adding questions in survey: " + objSurvey.Name;
+            ViewBag.Heading = "Adding questions in survey: " + objSurvey.Name;
             ViewBag.SurveyId = SurveyId;
             return View();
         }
@@ -71,6 +117,7 @@ namespace SurveyPortal.Controllers
                 }
                 question.Options = options.TrimEnd('!');
                 bool output = surveyQuestionRepository.Insert(question);
+                ViewBag.Message = "Question added to survey.";
                 return RedirectToAction("ListOfQuestionBySurvey", new { SurveyId = question.SurveyId });
             }
             catch (Exception ex)

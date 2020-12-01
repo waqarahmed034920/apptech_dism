@@ -115,16 +115,23 @@ namespace SurveyPortal.Infrastructure.Repositories
         {
             try
             {
+                string query = "select SO.*, OT.Name AS OptionTypeName from SurveyQuestion AS SO ";
+                query += "inner join OptionType AS OT ON SO.OptionTypeId = OT.Id ";
+                query += "where SO.SurveyId = " + SurveyId.ToString();
+
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from SurveyQuestion where SurveyId = " + SurveyId.ToString();
+                cmd.CommandText = query;
+
                 SqlDataReader myReader = cmd.ExecuteReader();
                 List<SurveyQuestion> SurveyQuestion = new List<SurveyQuestion>();
+
                 while (myReader.Read())
                 {
                     SurveyQuestion objSurveyQuestion = new SurveyQuestion();
                     objSurveyQuestion.Id = Convert.ToInt32(myReader["id"]);
                     objSurveyQuestion.SurveyId = Convert.ToInt32(myReader["SurveyId"].ToString());
                     objSurveyQuestion.Question = myReader["Question"].ToString();
+                    objSurveyQuestion.OptionTypeName = myReader["OptionTypeName"].ToString();
                     objSurveyQuestion.OptionTypeId = Convert.ToInt32(myReader["OptionTypeId"].ToString());
                     objSurveyQuestion.NoOfOptions = Convert.ToInt32(myReader["NoOfOptions"].ToString());
                     objSurveyQuestion.Options = (myReader["Options"].ToString());
