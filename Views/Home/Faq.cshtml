@@ -1,0 +1,21 @@
+﻿@model IEnumerable<SurveyPortal.Models.FAQ>
+
+@{
+    ViewBag.Title = "FAQ";
+}
+
+<h2>Frequently Asked Questions</h2>
+
+
+@foreach (var item in Model) {
+
+<div>
+    <p>@Html.DisplayFor(modelItem => item.Question)</p>
+    <p>@Html.DisplayFor(modelItem => item.Answer)</p>
+    <div>
+        <div style="float: left;">@Html.DisplayFor(modelItem => item.UpdateBy)</div>
+        <div style="float: right;">@Html.DisplayFor(modelItem => item.UpdateOn)</div>
+    </div>
+</div>
+
+}

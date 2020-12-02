@@ -37,6 +37,7 @@ namespace SurveyPortal.Controllers
         public ActionResult Edit(int id)
         {
             Survey model = this.surveyRepository.GetById(id);
+            ViewBag.SurveyForRole = GetSurveyForRoleList();
             return View(model);
         }
 
@@ -50,6 +51,7 @@ namespace SurveyPortal.Controllers
                     bool output = this.surveyRepository.Update(model);
                     ViewBag.Message = "Record updated successfully.";
                 }
+                ViewBag.SurveyForRole = GetSurveyForRoleList();
                 return View(model);
             }
             catch (Exception ex)
@@ -59,8 +61,16 @@ namespace SurveyPortal.Controllers
             }
         }
 
+        private List<SelectListItem> GetSurveyForRoleList()
+        {
+            List<SelectListItem> lst = new List<SelectListItem>();
+            lst.Add(new SelectListItem() { Text = "Faculty or Staff", Value = "Faculty or Staff" });
+            lst.Add(new SelectListItem() { Text = "Students", Value = "Students" });
+            return lst;
+        }
         public ActionResult Create()
         {
+            ViewBag.SurveyForRole = GetSurveyForRoleList();
             Survey model = new Survey();
             return View(model);
         }
@@ -75,6 +85,7 @@ namespace SurveyPortal.Controllers
                     bool output = this.surveyRepository.Insert(model);
                     ViewBag.Message = "Record addded successfully.";
                 }
+                ViewBag.SurveyForRole = GetSurveyForRoleList();
                 return View(model);
             }
             catch (Exception ex)

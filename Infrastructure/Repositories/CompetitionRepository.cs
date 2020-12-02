@@ -4,13 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
-    public class SurveyRepository : IRepository<Survey>
+    public class CompetitionRepository : IRepository<Competition>
     {
         public SqlCommand cmd;
-        public SurveyRepository()
+        public CompetitionRepository()
         {
             SqlConnection connection = new SqlConnection(Properties.Settings.Default.connectionstring);
             cmd = new SqlCommand();
@@ -22,7 +24,97 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "delete from survey where id = " + Id.ToString();
+                cmd.CommandText = "delete from Competition where id = " + Id.ToString();
+                int noOfRowsAffected = cmd.ExecuteNonQuery();
+                if (noOfRowsAffected >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public List<Competition> GetAll()
+        {
+            try
+            {
+                cmd.Connection.Open();
+                cmd.CommandText = "select * from Competition";
+                SqlDataReader myReader = cmd.ExecuteReader();
+                List<Competition> competition = new List<Competition>();
+                while (myReader.Read())
+                {
+                    Competition objCompetition = new Competition();
+                    objCompetition.Id = Convert.ToInt32(myReader["id"]);
+                    objCompetition.Introduction = myReader["Introduction"].ToString();
+                    objCompetition.Details = myReader["Details"].ToString();
+                    objCompetition.StartDate = Convert.ToDateTime(myReader["StartDate"]);
+                    objCompetition.EndDate = Convert.ToDateTime(myReader["EndDate"]);
+                    objCompetition.Role = Convert.ToInt32(myReader["Role"].ToString());
+                    competition.Add(objCompetition);
+                }
+                myReader.Close();
+                return competition;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public Competition GetById(int Id)
+        {
+            try
+            {
+                cmd.Connection.Open();
+                cmd.CommandText = "select * from Competition";
+                SqlDataReader myReader = cmd.ExecuteReader();
+                Competition objCompetition = new Competition();
+                while (myReader.Read())
+                {
+                    objCompetition.Id = Convert.ToInt32(myReader["id"]);
+                    objCompetition.Introduction = myReader["Introduction"].ToString();
+                    objCompetition.Details = myReader["Details"].ToString();
+                    objCompetition.StartDate = Convert.ToDateTime(myReader["StartDate"]);
+                    objCompetition.EndDate = Convert.ToDateTime(myReader["EndDate"]);
+                    objCompetition.Role = Convert.ToInt32(myReader["Role"].ToString());
+                }
+                myReader.Close();
+                return objCompetition;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public bool Insert(Competition objT)
+        {
+            try
+            {
+                cmd.Connection.Open();
+                cmd.CommandText = "insert into Competition(Introcution, details, startdate, enddate, role) values('" + objT.Introduction + "','" + objT.Details + "','" + objT.StartDate + "','" + objT.EndDate + "', '"+ objT.Role +"')";
+
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {
@@ -44,116 +136,19 @@ namespace SurveyPortal.Infrastructure.Repositories
             }
         }
 
-        public List<Survey> GetAll()
+        public bool Update(Competition objT)
         {
             try
             {
+                string query = "update Competition set introduction = '"+ objT.Introduction +"', ";
+                query += "details = '" + objT.Details + "',";
+                query += "StartDate = '" + objT.StartDate + "',";
+                query += "EndDate = '" + objT.EndDate + "',";
+                query += "Rolr = '" + objT.Role + "' ";
+                query += "Where Id = '" + objT.Id + "'";
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from Survey";
-                SqlDataReader myReader = cmd.ExecuteReader();
-                List<Survey> lstSurvey = new List<Survey>();
-                while (myReader.Read())
-                {
-                    Survey objSurvey = new Survey();
-                    objSurvey.Id = Convert.ToInt32(myReader["id"]);
-                    objSurvey.Name = myReader["Name"].ToString();
-                    objSurvey.StartDate = Convert.ToDateTime(myReader["StartDate"]);
-                    objSurvey.EndDate = Convert.ToDateTime(myReader["EndDate"]);
-                    objSurvey.BackButton = Convert.ToBoolean(myReader["BackButton"]);
-                    objSurvey.Reviewable = Convert.ToBoolean(myReader["Reviewable"]);
-                    objSurvey.InternalOnly = Convert.ToBoolean(myReader["InternalOnly"]);
-                    objSurvey.SurveyFor = myReader["SurveyFor"].ToString();
-                    lstSurvey.Add(objSurvey);
-                }
-                myReader.Close();
-                return lstSurvey;
+                cmd.CommandText = query;
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
-        }
-
-        public Survey GetById(int Id)
-        {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "select * from Survey where id = " + Id.ToString();
-                SqlDataReader myReader = cmd.ExecuteReader();
-                Survey objSurvey = null;
-                while (myReader.Read())
-                {
-                    objSurvey = new Survey();
-                    objSurvey.Id = Convert.ToInt32(myReader["id"]);
-                    objSurvey.Name = myReader["Name"].ToString();
-                    objSurvey.StartDate = Convert.ToDateTime(myReader["StartDate"]);
-                    objSurvey.EndDate = Convert.ToDateTime(myReader["EndDate"]);
-                    objSurvey.BackButton = Convert.ToBoolean(myReader["BackButton"]);
-                    objSurvey.Reviewable = Convert.ToBoolean(myReader["Reviewable"]);
-                    objSurvey.InternalOnly = Convert.ToBoolean(myReader["InternalOnly"]);
-                    objSurvey.SurveyFor = myReader["SurveyFor"].ToString();
-                }
-                myReader.Close();
-                return objSurvey;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
-        }
-
-        public bool Insert(Survey objT)
-        {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "insert into Survey(name, startdate, enddate, BackButton, Reviewable, InternalOnly, SurveyFor) values('" + objT.Name + "','" + objT.StartDate + "','" + objT.EndDate + "', '" + objT.BackButton + "', '" + objT.Reviewable + "', '" + objT.InternalOnly + "', '" + objT.SurveyFor + "')";
-
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
-        }
-
-        public bool Update(Survey objT)
-        {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "update Survey set name = '" + objT.Name + 
-                    "', StartDate = '" + objT.StartDate + 
-                    "', endDate = '" + objT.EndDate +
-                    "', BackButton= '" + objT.BackButton +
-                    "', Reviewable= '" + objT.Reviewable +
-                    "', InternalOnly= '" + objT.InternalOnly +
-                    "', SurveyFor = '" + objT.SurveyFor +
-                    "' where id =  '" + objT.Id + "'";
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {

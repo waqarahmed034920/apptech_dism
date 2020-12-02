@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SurveyPortal.Infrastructure.Interface;
+using SurveyPortal.Infrastructure.Repositories;
+using SurveyPortal.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,18 +16,17 @@ namespace SurveyPortal.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Support()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Faq()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            IRepository<FAQ> faqRepo = new FAQRepository();
+            var model = faqRepo.GetAll();
+            return View(model);
         }
+
     }
 }

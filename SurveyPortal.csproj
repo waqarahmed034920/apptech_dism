@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CompetitionController.cs" />
     <Compile Include="Controllers\FaqController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OptionTypeController.cs" />
@@ -130,11 +131,13 @@
     </Compile>
     <Compile Include="Infrastructure\Interface\IRepository.cs" />
     <Compile Include="Infrastructure\Interface\ISurveyQuestion.cs" />
+    <Compile Include="Infrastructure\Repositories\CompetitionRepository.cs" />
     <Compile Include="Infrastructure\Repositories\FAQRepository.cs" />
     <Compile Include="Infrastructure\Repositories\OptionTypeRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyQuestionRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyResponseRepository.cs" />
+    <Compile Include="Models\Competition.cs" />
     <Compile Include="Models\FAQ.cs" />
     <Compile Include="Models\OptionType.cs" />
     <Compile Include="Models\Survey.cs" />
@@ -202,6 +205,11 @@
     <Content Include="Views\Faq\Edit.cshtml" />
     <Content Include="Views\SurveyQuestion\ListOfQuestionBySurvey.cshtml" />
     <Content Include="Views\SurveyQuestion\Edit.cshtml" />
+    <Content Include="Views\Home\Support.cshtml" />
+    <Content Include="Views\Home\Faq.cshtml" />
+    <Content Include="Views\Competition\Index.cshtml" />
+    <Content Include="Views\Competition\Edit.cshtml" />
+    <Content Include="Views\Competition\Create.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

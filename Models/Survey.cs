@@ -27,6 +27,8 @@ namespace SurveyPortal.Models
         public bool Reviewable { get; set; }
         [Display(Name = "Internal Survey")]
         public bool InternalOnly { get; set; }
+        public string SurveyFor { get; set; }
+
 
     }
 }
