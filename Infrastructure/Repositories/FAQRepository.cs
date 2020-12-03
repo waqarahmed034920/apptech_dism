@@ -2,6 +2,7 @@
 using SurveyPortal.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace SurveyPortal.Infrastructure.Repositories
         //Constroctor
         public FAQRepository()
         {
-            SqlConnection connection = new SqlConnection(Properties.Settings.Default.connectionstring);
+            var conString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            SqlConnection connection = new SqlConnection(conString);
             cmd = new SqlCommand();
             cmd.Connection = connection;
             cmd.CommandType = CommandType.Text;
