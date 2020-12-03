@@ -11,9 +11,17 @@ namespace SurveyPortal.Controllers
 {
     public class HomeController : Controller
     {
+        ICompetition competitionRepo;
+        IRepository<FAQ> faqRepo;
+        public HomeController()
+        {
+            this.competitionRepo = new CompetitionRepository();
+            this.faqRepo = new FAQRepository();
+        }
         public ActionResult Index()
         {
-            return View();
+            Competition currentCompetition = competitionRepo.GetCurrentCompetition();
+            return View(currentCompetition);
         }
 
         public ActionResult Support()
@@ -23,7 +31,6 @@ namespace SurveyPortal.Controllers
 
         public ActionResult Faq()
         {
-            IRepository<FAQ> faqRepo = new FAQRepository();
             var model = faqRepo.GetAll();
             return View(model);
         }

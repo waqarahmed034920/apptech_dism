@@ -78,8 +78,8 @@
         <div id="optionDiv">
         </div>
         <div class="col-md-offset-5">
-            <button class="btn btn-primary" onclick="previous()">Previous</button>
-            <button class="btn btn-primary" onclick="next()">Next</button>
+            <button class="btn btn-primary" onclick="survey().previous()">Previous</button>
+            <button class="btn btn-primary" onclick="survey().next()">Next</button>
         </div>
     </div>
 
@@ -91,44 +91,9 @@
 
 @section Scripts{
     <script>
+        
         var model = @Html.Raw(Json.Encode(Model));
-        var index = 0;
-
-        function GetNextQuestion(index) {
-            var question = model['Questions'][index];
-
-            if (question !== undefined) {
-                document.getElementById('questionDiv').innerHTML = (index + 1) + ". " + question['Question'];
-
-                var options = question['Options'];
-                var Items = options.split('!');
-                str = "";
-                Items.forEach(function (item) {
-                    if (question['OptionTypeId'] == 1) {
-                        str += "<div style=\"padding: 5px;\"><input type=\"radio\" name=\"radio-group\" value=\"" + item + " \"><span style=\"padding: 5px; \">" + item + "</span></div>";
-                    }
-                    else if (question.OptionTypeId == 2) {
-                        str += "<div style=\"padding: 5px;\"><input type=\"checkbox\" value=\"" + item + " \"><span style=\"padding: 5px; \">" + item + "</span></div>";
-                    }
-                });
-                document.getElementById('optionDiv').innerHTML = str;
-            }
-
-        }
-
-        function next() {
-            if (index < model['Questions'].length) {
-                GetNextQuestion(index++);
-            }
-        }
-
-        function previous() {
-            if (index > 0) {
-                GetNextQuestion(index--);
-            }
-        }
-
-        GetNextQuestion(0);
+        survey.Model = model;
 
     </script>
 } 

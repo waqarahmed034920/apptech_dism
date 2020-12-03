@@ -7,15 +7,28 @@
 <h2>Frequently Asked Questions</h2>
 
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
+    
+    @*<div>
+        <div>
+            <p>@Html.DisplayFor(modelItem => item.Question)</p>
+            <p>@Html.DisplayFor(modelItem => item.Answer)</p>
+        </div>
+        <div>
+            <div style="float: left;">@Html.DisplayFor(modelItem => item.UpdateBy)</div>
+            <div style="float: right;">@Html.DisplayFor(modelItem => item.UpdateOn)</div>
+        </div> 
+    </div>*@
 
-<div>
-    <p>@Html.DisplayFor(modelItem => item.Question)</p>
-    <p>@Html.DisplayFor(modelItem => item.Answer)</p>
-    <div>
-        <div style="float: left;">@Html.DisplayFor(modelItem => item.UpdateBy)</div>
-        <div style="float: right;">@Html.DisplayFor(modelItem => item.UpdateOn)</div>
-    </div>
+<div class="container">
+  
+  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">@Html.DisplayFor(modelItem => item.Question)</button>
+  <div id="demo" class="collapse show">
+      <p>@Html.DisplayFor(modelItem => item.Answer)</p>
+  </div>
 </div>
+
+   
 
 }

@@ -12,6 +12,7 @@ namespace SurveyPortal.Models
 
         [Required(ErrorMessage = "Survey name is required")]
         public string Name { get; set; }
+        public string Description { get; set; }
 
         [Required(ErrorMessage = "Start date is required")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]

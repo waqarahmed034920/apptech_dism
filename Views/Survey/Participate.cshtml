@@ -1,0 +1,19 @@
+﻿@model SurveyPortal.Models.ViewModelSurveyQuestion
+
+<h2>
+    Taking Survey: @Html.DisplayFor(model => model.Survey.Name)
+</h2>
+
+<div>
+    <hr />
+    <div class="jumbotron">
+        <div id="questionDiv" class="lead">
+        </div>
+        <div id="optionDiv">
+        </div>
+        <div class="col-md-offset-5">
+            <button class="btn btn-primary" onclick="previous()">Previous</button>
+            <button class="btn btn-primary" onclick="next()">Next</button>
+        </div>
+    </div>
+</div>

@@ -1,23 +1,30 @@
-﻿@{
+﻿@model SurveyPortal.Models.Competition
+    
+@{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
     <h1>Competition</h1>
-    <p class="lead">We are having a competetion to check the awarness of our staff about the environmental pollution in karachi.</p>
+    <p class="lead">
+        @Html.DisplayFor(model => model.Introduction)
+    </p>
     <p>
-        this competetion consists of a survey questionnaire which comprises general questions about the pollution level in our city
-        at the end of survey your response would be marked and position holders will be dicided by the conducting body.
+        @Html.DisplayFor(model => model.Details)
     </p>
 </div>
 
 <div class="row">
     <div class="col-md-12">
-        <h2>Introduction</h2>
+        <h2>Competition Survey:</h2>
         <p>
-            this view should include the details of the competitions that are to be held.
-            Also the new surveys should be displayed in a brief and a link to participate in the survey
+            @Html.DisplayFor(model => model.SurveyName)
         </p>
-        <p><a class="btn btn-primary" href="https://localhost:44387/Survey/take_survey/301865">Participate</a></p>
+        <p>
+            @Html.DisplayFor(model => model.SurveyDescription)
+        </p>
+        <p>
+            @Html.ActionLink("Participate in survey", "Participate", "Survey", new { SurveyId = Model.SurveyId}, null)
+        </p>
     </div>
 </div>

@@ -129,6 +129,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Interface\ICompetition.cs" />
     <Compile Include="Infrastructure\Interface\IRepository.cs" />
     <Compile Include="Infrastructure\Interface\ISurveyQuestion.cs" />
     <Compile Include="Infrastructure\Repositories\CompetitionRepository.cs" />
@@ -177,7 +178,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\surveyScripts\questions.js" />
     <Content Include="Scripts\surveyScripts\survey.js" />
+    <Content Include="Scripts\surveyScripts\utilities.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -208,8 +211,9 @@
     <Content Include="Views\Home\Support.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Competition\Index.cshtml" />
-    <Content Include="Views\Competition\Edit.cshtml" />
     <Content Include="Views\Competition\Create.cshtml" />
+    <Content Include="Views\Competition\Edit.cshtml" />
+    <Content Include="Views\Survey\Participate.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

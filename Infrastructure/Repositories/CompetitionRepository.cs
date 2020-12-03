@@ -9,7 +9,7 @@ using System.Web;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
-    public class CompetitionRepository : IRepository<Competition>
+    public class CompetitionRepository : ICompetition
     {
         public SqlCommand cmd;
         public CompetitionRepository()
@@ -18,6 +18,39 @@ namespace SurveyPortal.Infrastructure.Repositories
             cmd = new SqlCommand();
             cmd.Connection = connection;
             cmd.CommandType = CommandType.Text;
+        }
+
+        public Competition GetCurrentCompetition()
+        {
+            try
+            {
+                cmd.Connection.Open();
+                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competition AS C inner join Survey AS S ON c.SurveyId = s.Id";
+                SqlDataReader myReader = cmd.ExecuteReader();
+                Competition objCompetition = new Competition();
+                while (myReader.Read())
+                {
+                    objCompetition.Id = Convert.ToInt32(myReader["id"]);
+                    objCompetition.Introduction = myReader["Introduction"].ToString();
+                    objCompetition.Details = myReader["Details"].ToString();
+                    objCompetition.StartDate = Convert.ToDateTime(myReader["StartDate"]);
+                    objCompetition.EndDate = Convert.ToDateTime(myReader["EndDate"]);
+                    objCompetition.RoleId = Convert.ToInt32(myReader["RoleId"].ToString());
+                    objCompetition.SurveyId = Convert.ToInt32(myReader["SurveyId"]);
+                    objCompetition.SurveyName = myReader["Name"].ToString();
+                    objCompetition.SurveyDescription = myReader["Description"].ToString();
+                }
+                myReader.Close();
+                return objCompetition;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
         }
         public bool Delete(int Id)
         {
@@ -51,7 +84,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from Competition";
+                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competition AS C inner join Survey AS S ON c.SurveyId = s.Id";
                 SqlDataReader myReader = cmd.ExecuteReader();
                 List<Competition> competition = new List<Competition>();
                 while (myReader.Read())
@@ -60,9 +93,12 @@ namespace SurveyPortal.Infrastructure.Repositories
                     objCompetition.Id = Convert.ToInt32(myReader["id"]);
                     objCompetition.Introduction = myReader["Introduction"].ToString();
                     objCompetition.Details = myReader["Details"].ToString();
+                    objCompetition.SurveyId = Convert.ToInt32(myReader["SurveyId"]);
+                    objCompetition.SurveyName  = myReader["Name"].ToString();
+                    objCompetition.SurveyDescription = myReader["Description"].ToString();
                     objCompetition.StartDate = Convert.ToDateTime(myReader["StartDate"]);
                     objCompetition.EndDate = Convert.ToDateTime(myReader["EndDate"]);
-                    objCompetition.Role = Convert.ToInt32(myReader["Role"].ToString());
+                    objCompetition.RoleId = Convert.ToInt32(myReader["RoleId"].ToString());
                     competition.Add(objCompetition);
                 }
                 myReader.Close();
@@ -83,7 +119,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from Competition";
+                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competition AS C inner join Survey AS S ON c.SurveyId = s.Id where c.id = " + Id.ToString();
                 SqlDataReader myReader = cmd.ExecuteReader();
                 Competition objCompetition = new Competition();
                 while (myReader.Read())
@@ -93,7 +129,10 @@ namespace SurveyPortal.Infrastructure.Repositories
                     objCompetition.Details = myReader["Details"].ToString();
                     objCompetition.StartDate = Convert.ToDateTime(myReader["StartDate"]);
                     objCompetition.EndDate = Convert.ToDateTime(myReader["EndDate"]);
-                    objCompetition.Role = Convert.ToInt32(myReader["Role"].ToString());
+                    objCompetition.RoleId = Convert.ToInt32(myReader["RoleId"].ToString());
+                    objCompetition.SurveyId = Convert.ToInt32(myReader["SurveyId"]);
+                    objCompetition.SurveyName = myReader["Name"].ToString();
+                    objCompetition.SurveyDescription = myReader["Description"].ToString();
                 }
                 myReader.Close();
                 return objCompetition;
@@ -113,7 +152,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "insert into Competition(Introcution, details, startdate, enddate, role) values('" + objT.Introduction + "','" + objT.Details + "','" + objT.StartDate + "','" + objT.EndDate + "', '"+ objT.Role +"')";
+                cmd.CommandText = "Insert into Competition(SurveyId, introduction, details, startdate, enddate, roleid) values('" + objT.SurveyId + "', '" + objT.Introduction + "','" + objT.Details + "','" + objT.StartDate + "','" + objT.EndDate + "', '"+ objT.RoleId +"')";
 
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
@@ -144,7 +183,8 @@ namespace SurveyPortal.Infrastructure.Repositories
                 query += "details = '" + objT.Details + "',";
                 query += "StartDate = '" + objT.StartDate + "',";
                 query += "EndDate = '" + objT.EndDate + "',";
-                query += "Rolr = '" + objT.Role + "' ";
+                query += "RoleId = '" + objT.RoleId + "', ";
+                query += "SurveyId = '" + objT.SurveyId + "' ";
                 query += "Where Id = '" + objT.Id + "'";
                 cmd.Connection.Open();
                 cmd.CommandText = query;

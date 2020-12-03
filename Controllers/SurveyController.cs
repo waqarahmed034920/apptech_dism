@@ -25,6 +25,15 @@ namespace SurveyPortal.Controllers
             return View(lst);
         }
 
+        public ActionResult Participate(int SurveyId)
+        {
+            Survey survey = this.surveyRepository.GetById(SurveyId);
+            List<SurveyQuestion> questions = this.surveyQuestionRepository.GetQuestionsBySurveyId(SurveyId);
+            ViewModelSurveyQuestion viewModel = new ViewModelSurveyQuestion();
+            viewModel.Survey = survey;
+            viewModel.Questions = questions;
+            return View(viewModel);
+        }
         public ActionResult Preview(int id)
         {
             Survey survey = this.surveyRepository.GetById(id);

@@ -11,7 +11,7 @@ namespace SurveyPortal.Controllers
 {
     public class CompetitionController : Controller
     {
-        IRepository<Competition> competitionRepo;
+        ICompetition competitionRepo;
         public CompetitionController()
         {
             competitionRepo = new CompetitionRepository();

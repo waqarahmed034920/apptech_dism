@@ -38,7 +38,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             finally
             {
