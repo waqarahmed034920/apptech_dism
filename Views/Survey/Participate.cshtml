@@ -17,3 +17,12 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+
+        var model = @Html.Raw(Json.Encode(Model));
+        setModel(model);
+
+    </script>
+}

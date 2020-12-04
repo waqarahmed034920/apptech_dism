@@ -5,30 +5,45 @@
 }
 
 <h2>Frequently Asked Questions</h2>
+<div id="accordion">
 
 
-@foreach (var item in Model)
-{
-    
-    @*<div>
-        <div>
-            <p>@Html.DisplayFor(modelItem => item.Question)</p>
-            <p>@Html.DisplayFor(modelItem => item.Answer)</p>
+    @foreach (var item in Model)
+    {
+
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" 
+                            data-toggle="collapse" 
+                            data-target="#@item.Id" 
+                            aria-expanded="false" 
+                            aria-controls="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Question)
+                    </button>
+                </h5>
+            </div>
+            <div id="@item.Id" class="collapse" 
+                 aria-labelledby="headingThree" data-
+                 parent="#accordion">
+                <div class="card-body">
+                    @Html.DisplayFor(modelItem => item.Answer)
+                </div>
+            </div>
         </div>
-        <div>
-            <div style="float: left;">@Html.DisplayFor(modelItem => item.UpdateBy)</div>
-            <div style="float: right;">@Html.DisplayFor(modelItem => item.UpdateOn)</div>
-        </div> 
-    </div>*@
 
-<div class="container">
-  
-  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">@Html.DisplayFor(modelItem => item.Question)</button>
-  <div id="demo" class="collapse show">
-      <p>@Html.DisplayFor(modelItem => item.Answer)</p>
-  </div>
+        @*<div>
+                <div>
+                    <p>@Html.DisplayFor(modelItem => item.Question)</p>
+                    <p>@Html.DisplayFor(modelItem => item.Answer)</p>
+                </div>
+                <div>
+                    <div style="float: left;">@Html.DisplayFor(modelItem => item.UpdateBy)</div>
+                    <div style="float: right;">@Html.DisplayFor(modelItem => item.UpdateOn)</div>
+                </div>
+            </div>*@
+
+
+
+    }
 </div>
-
-   
-
-}
