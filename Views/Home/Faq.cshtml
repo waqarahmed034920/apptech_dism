@@ -14,16 +14,16 @@
         <div class="card">
             <div class="card-header" id="headingThree">
                 <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" 
-                            data-toggle="collapse" 
-                            data-target="#@item.Id" 
-                            aria-expanded="false" 
+                    <button type="button" class="btn btn-success"
+                            data-toggle="collapse"
+                            data-target="#@item.Id"
+                            aria-expanded="false"
                             aria-controls="@item.Id">
                         @Html.DisplayFor(modelItem => item.Question)
                     </button>
                 </h5>
             </div>
-            <div id="@item.Id" class="collapse" 
+            <div id="@item.Id" class="collapse"
                  aria-labelledby="headingThree" data-
                  parent="#accordion">
                 <div class="card-body">
@@ -47,3 +47,6 @@
 
     }
 </div>
+
+
+@*//class="btn btn-link collapsed"*@ 

@@ -12,9 +12,11 @@ namespace SurveyPortal.Controllers
     public class CompetitionController : Controller
     {
         ICompetition competitionRepo;
+        IRepository<Survey> surveyRepo;
         public CompetitionController()
         {
             competitionRepo = new CompetitionRepository();
+            surveyRepo = new SurveyRepository();
         }
         // GET: Competition
         public ActionResult Index()
@@ -23,13 +25,27 @@ namespace SurveyPortal.Controllers
             return View(competitions);
         }
 
+        List<Survey> getSurveyList()
+        {
+            List<Survey> lstSurvey = surveyRepo.GetAll();
+            lstSurvey.Insert(0, new Survey() { Id = 0, Name = "Please select" });
+            return lstSurvey;
+        }
+
+        List<object> getRoleList()
+        {
+            var roleList = new List<object>();
+            roleList.Add(new { Text = "Please select", Value = 0 });
+            roleList.Add(new { Text = "Faculty or Staff", Value = 1 });
+            roleList.Add(new { Text = "Students", Value = 2 });
+
+            return roleList;
+        }
 
         public ActionResult Create()
         {
-            var roleList = new List<object>();
-            roleList.Add(new { Text = "Faculty or Staff", Value = "1" });
-            roleList.Add(new { Text = "Students", Value = "2" });
-            ViewBag.RoleList = roleList;
+            ViewBag.RoleList = getRoleList();
+            ViewBag.SurveyList = getSurveyList();
             Competition model = new Competition();
             return View(model);
         }
@@ -43,6 +59,8 @@ namespace SurveyPortal.Controllers
                     this.competitionRepo.Insert(model);
                     ViewBag.Message = "Record addded successfully.";
                 }
+                ViewBag.RoleList = getRoleList();
+                ViewBag.SurveyList = getSurveyList();
                 return View(model);
             }
             catch (Exception ex)
@@ -54,10 +72,8 @@ namespace SurveyPortal.Controllers
 
         public ActionResult Edit(int id)
         {
-            var roleList = new List<object>();
-            roleList.Add(new { Text = "Faculty or Staff", Value = "1" });
-            roleList.Add(new { Text = "Students", Value = "2" });
-            ViewBag.RoleList = roleList;
+            ViewBag.RoleList = getRoleList();
+            ViewBag.SurveyList = getSurveyList();
             Competition model = this.competitionRepo.GetById(id);
             return View(model);
         }
@@ -71,6 +87,8 @@ namespace SurveyPortal.Controllers
                     this.competitionRepo.Update(model);
                     ViewBag.Message = "Record updated successfully.";
                 }
+                ViewBag.RoleList = getRoleList();
+                ViewBag.SurveyList = getSurveyList();
                 return View(model);
             }
             catch (Exception ex)
