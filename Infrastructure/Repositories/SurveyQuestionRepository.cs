@@ -26,7 +26,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "delete from SurveyQuestion where id = " + Id.ToString();
+                cmd.CommandText = "delete from SurveyQuestions where id = " + Id.ToString();
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {
@@ -53,7 +53,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from SurveyQuestion";
+                cmd.CommandText = "select * from SurveyQuestions";
                 SqlDataReader myReader = cmd.ExecuteReader();
                 List<SurveyQuestion> SurveyQuestion = new List<SurveyQuestion>();
                 while (myReader.Read())
@@ -86,7 +86,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from SurveyQuestion where id = " + Id.ToString();
+                cmd.CommandText = "select * from SurveyQuestions where id = " + Id.ToString();
                 SqlDataReader myReader = cmd.ExecuteReader();
                 SurveyQuestion objsurveyquestion = null;
                 while (myReader.Read())
@@ -117,8 +117,8 @@ namespace SurveyPortal.Infrastructure.Repositories
         {
             try
             {
-                string query = "select SO.*, OT.Name AS OptionTypeName from SurveyQuestion AS SO ";
-                query += "inner join OptionType AS OT ON SO.OptionTypeId = OT.Id ";
+                string query = "select SO.*, OT.Name AS OptionTypeName from SurveyQuestions AS SO ";
+                query += "inner join OptionTypes AS OT ON SO.OptionTypeId = OT.Id ";
                 query += "where SO.SurveyId = " + SurveyId.ToString();
 
                 cmd.Connection.Open();
@@ -157,7 +157,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "insert into SurveyQuestion(SurveyId, Question, OptionTypeId, NoOfOptions, Options ) values('" + objT.SurveyId + "','" + objT.Question + "','" + objT.OptionTypeId + "', '" + objT.NoOfOptions+ "', '" + objT.Options+ "')";
+                cmd.CommandText = "insert into SurveyQuestions(SurveyId, Question, OptionTypeId, NoOfOptions, Options ) values('" + objT.SurveyId + "','" + objT.Question + "','" + objT.OptionTypeId + "', '" + objT.NoOfOptions+ "', '" + objT.Options+ "')";
 
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
@@ -185,7 +185,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "update SurveyQuestion set SurveyId = '" + objT.SurveyId+
+                cmd.CommandText = "update SurveyQuestions set SurveyId = '" + objT.SurveyId+
                     "', Question = '" + objT.Question +
                     "', OptionTypeId = '" + objT.OptionTypeId +
                     "', NoOfOptions= '" + objT.NoOfOptions +

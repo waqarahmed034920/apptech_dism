@@ -63,9 +63,11 @@ namespace SurveyPortal.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class RegisterViewModel : IValidatableObject
     {
-        public string RoleId { get; set; }
+        [Display(Name = "Role")]
+        public string Role { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> RoleList { get; set; }
 
         [Required]
         [EmailAddress]
@@ -82,14 +84,41 @@ namespace SurveyPortal.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Full Name")]
         public string Name { get; set; }
+        [Display(Name = "Roll No")]
         public string RollNo { get; set; }
+        [Display(Name = "Class")]
         public string ClassName { get; set; }
         public string Section { get; set; }
-        public DateTime AdmissionDate { get; set; }
+        [Display(Name = "Admission Date")]
+        public DateTime? AdmissionDate { get; set; }
+
+        [Display(Name = "Employee No")]
         public string EmployeeNo { get; set; }
         public string Specification { get; set; }
-        public DateTime HireDate { get; set; }
+        [Display(Name = "Hire Date")]
+        public DateTime? HireDate { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (!eitherAdmissionOrHireDateProvided())
+                yield return new ValidationResult("Please provide either admission date or hire date", new[] { "AdmissionDate", "HireDate" });
+        }
+
+        public bool eitherAdmissionOrHireDateProvided()
+        {
+            var ad = AdmissionDate ?? null;
+            var hd = HireDate ?? null;
+            return (ad == null && hd == null) ? false : true;
+        }
+
+        public bool isValidDate(string dt)
+        {
+            DateTime tempDate;
+            return DateTime.TryParse(dt, out tempDate);
+        }
     }
 
     public class ResetPasswordViewModel

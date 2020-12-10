@@ -27,7 +27,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competition AS C inner join Survey AS S ON c.SurveyId = s.Id";
+                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competitions AS C inner join Surveys AS S ON c.SurveyId = s.Id";
                 SqlDataReader myReader = cmd.ExecuteReader();
                 Competition objCompetition = new Competition();
                 while (myReader.Read())
@@ -59,7 +59,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "delete from Competition where id = " + Id.ToString();
+                cmd.CommandText = "delete from Competitions where id = " + Id.ToString();
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {
@@ -86,7 +86,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competition AS C inner join Survey AS S ON c.SurveyId = s.Id";
+                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competitions AS C inner join Surveys AS S ON c.SurveyId = s.Id";
                 SqlDataReader myReader = cmd.ExecuteReader();
                 List<Competition> competition = new List<Competition>();
                 while (myReader.Read())
@@ -121,7 +121,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competition AS C inner join Survey AS S ON c.SurveyId = s.Id where c.id = " + Id.ToString();
+                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competitions AS C inner join Surveys AS S ON c.SurveyId = s.Id where c.id = " + Id.ToString();
                 SqlDataReader myReader = cmd.ExecuteReader();
                 Competition objCompetition = new Competition();
                 while (myReader.Read())
@@ -154,7 +154,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "Insert into Competition(SurveyId, introduction, details, startdate, enddate, roleid) values('" + objT.SurveyId + "', '" + objT.Introduction + "','" + objT.Details + "','" + objT.StartDate + "','" + objT.EndDate + "', '"+ objT.RoleId +"')";
+                cmd.CommandText = "Insert into Competitions(SurveyId, introduction, details, startdate, enddate, roleid) values('" + objT.SurveyId + "', '" + objT.Introduction + "','" + objT.Details + "','" + objT.StartDate + "','" + objT.EndDate + "', '"+ objT.RoleId +"')";
 
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
@@ -181,7 +181,7 @@ namespace SurveyPortal.Infrastructure.Repositories
         {
             try
             {
-                string query = "update Competition set introduction = '"+ objT.Introduction +"', ";
+                string query = "update Competitions set introduction = '"+ objT.Introduction +"', ";
                 query += "details = '" + objT.Details + "',";
                 query += "StartDate = '" + objT.StartDate + "',";
                 query += "EndDate = '" + objT.EndDate + "',";

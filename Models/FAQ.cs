@@ -14,8 +14,8 @@ namespace SurveyPortal.Models
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name ="Update On")]
-        public DateTime UpdateOn { get; set; }
+        public DateTime UpdatedOn { get; set; }
         
-        public string UpdateBy { get; set; }  
+        public string UpdatedBy { get; set; }  
     }
 }

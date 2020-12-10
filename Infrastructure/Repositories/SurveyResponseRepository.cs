@@ -26,7 +26,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "delete from surveyResponse where id = " + Id.ToString();
+                cmd.CommandText = "delete from surveyResponses where id = " + Id.ToString();
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {
@@ -53,7 +53,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from Tasks";
+                cmd.CommandText = "select * from SurveyResponses";
                 SqlDataReader myReader = cmd.ExecuteReader();
                 List<SurveyResponse> lstSurveyResponse = new List<SurveyResponse>();
                 while (myReader.Read())
@@ -83,7 +83,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from SurveyResponse where id = " + Id.ToString();
+                cmd.CommandText = "select * from SurveyResponses where id = " + Id.ToString();
                 SqlDataReader myReader = cmd.ExecuteReader();
                 SurveyResponse objSurveyResponse = null;
                 while (myReader.Read())
@@ -112,7 +112,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "insert into SurveyResponse(userid,ResponseDate,Response) values('" + objT.UserId + "','" + objT.ResponseDate + "','" + objT.Response + "')";
+                cmd.CommandText = "insert into SurveyResponses(userid,ResponseDate,Response) values('" + objT.UserId + "','" + objT.ResponseDate + "','" + objT.Response + "')";
 
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
@@ -139,7 +139,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "update SurveyResponse set userid = '" + objT.UserId + "', ResponseDate = '" + objT.ResponseDate + "', Response = '" + objT.Response + "' where id =  '" + objT.Id + "'";
+                cmd.CommandText = "update SurveyResponses set userid = '" + objT.UserId + "', ResponseDate = '" + objT.ResponseDate + "', Response = '" + objT.Response + "' where id =  '" + objT.Id + "'";
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {

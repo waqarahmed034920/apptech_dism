@@ -14,20 +14,32 @@
         <div class="card">
             <div class="card-header" id="headingThree">
                 <h5 class="mb-0">
-                    <button type="button" class="btn btn-success"
+                    <button type="button"
                             data-toggle="collapse"
                             data-target="#@item.Id"
                             aria-expanded="false"
                             aria-controls="@item.Id">
-                        @Html.DisplayFor(modelItem => item.Question)
+
+                        <div class="text-danger">
+                            @*<div class="col-1 text-truncate" style="margin:15px;">*@
+                                @Html.DisplayFor(modelItem => item.Question)
+                            @*</div>*@
+                        </div>
+                       
                     </button>
                 </h5>
             </div>
             <div id="@item.Id" class="collapse"
                  aria-labelledby="headingThree" data-
                  parent="#accordion">
-                <div class="card-body">
-                    @Html.DisplayFor(modelItem => item.Answer)
+                <div class="text-info">
+
+                    <span class="d-inline-block text-truncate" style="margin:8px;">
+                        @Html.DisplayFor(modelItem => item.Answer)
+                    </span>
+
+                    
+
                 </div>
             </div>
         </div>

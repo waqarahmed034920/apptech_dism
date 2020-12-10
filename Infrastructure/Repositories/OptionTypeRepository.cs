@@ -24,7 +24,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "delete from OptionType where id = " + Id.ToString();
+                cmd.CommandText = "delete from OptionTypes where id = " + Id.ToString();
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {
@@ -51,7 +51,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from OptionType";
+                cmd.CommandText = "select * from OptionTypes";
                 SqlDataReader myReader = cmd.ExecuteReader();
                 List<OptionType> lstOptionType = new List<OptionType>();
                 while (myReader.Read())
@@ -80,7 +80,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from OptionType where id = " + Id.ToString();
+                cmd.CommandText = "select * from OptionTypes where id = " + Id.ToString();
                 SqlDataReader myReader = cmd.ExecuteReader();
                 OptionType objOptionType = null;
                 while (myReader.Read())
@@ -108,7 +108,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "insert into OptionType(Name, Description ) values('" + objT.Name + "','" + objT.Description +  "')";
+                cmd.CommandText = "insert into OptionTypes(Name, Description ) values('" + objT.Name + "','" + objT.Description +  "')";
 
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
@@ -136,7 +136,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "update OptionType set name = '" + objT.Name +"', Description = '" + objT. Description + "' where id =  '" + objT.Id + "'";
+                cmd.CommandText = "update OptionTypes set name = '" + objT.Name +"', Description = '" + objT. Description + "' where id =  '" + objT.Id + "'";
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {

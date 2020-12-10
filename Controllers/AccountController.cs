@@ -136,14 +136,28 @@ namespace SurveyPortal.Controllers
             }
         }
 
+        SelectList GetRoles()
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var roles = db.Roles.Where(r => r.Name != "Admin").Select(r => r.Name).ToList();
+                return new SelectList(roles);
+            }
+        }
+
         //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var db = new ApplicationDbContext();
-            ViewBag.RoleList = db.Roles.Where(r => r.Name != "Admin").ToList();
-            return View();
+            using (var db = new ApplicationDbContext())
+            {
+                var model = new RegisterViewModel
+                {
+                    RoleList = GetRoles()
+                };
+                return View(model);
+            }
         }
 
         //
@@ -155,11 +169,30 @@ namespace SurveyPortal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser {UserName = model.Email, Email = model.Email };
+                switch (model.Role)
+                {
+                    case SurveyPortalConstants.STUDENT_ROLL_NAME:
+                        user.AdmissionDate = (DateTime)model.AdmissionDate;
+                        user.RollNo = model.RollNo;
+                        user.ClassName = model.ClassName;
+                        user.Section = model.Section;
+                        break;
+                    case SurveyPortalConstants.FACULTY_OR_STAFF_ROLL_NAME:
+                        user.EmployeeNo = model.EmployeeNo;
+                        user.Specification = model.Specification;
+                        user.HireDate = (DateTime)model.HireDate;
+                        break;
+                    default:
+                        ModelState.AddModelError("Role", "Please select a valid role");
+                        model.RoleList = GetRoles();
+                        return View(model);
+                }
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // UserManager.AddToRole(user.Id, SurveyPortalConstants.ADMIN_ROLL_NAME);
+                    UserManager.AddToRole(user.Id, model.Role);
 
                     // await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
@@ -168,13 +201,15 @@ namespace SurveyPortal.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    model.RoleList = GetRoles();
+                    ViewBag.Message = "Your registration has been forwarded to admin. you would receiv an email when accepted.";
+                    return View(model);
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
+            model.RoleList = GetRoles();
             return View(model);
         }
 
