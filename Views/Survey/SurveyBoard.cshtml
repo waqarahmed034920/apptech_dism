@@ -1,8 +1,10 @@
 ﻿@model SurveyPortal.Models.Competition
-    
+
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Survey Board";
 }
+
+<h2>Survey Board</h2>
 
 <div class="jumbotron">
     <h1>Competition</h1>
@@ -24,7 +26,7 @@
             @Html.DisplayFor(model => model.SurveyDescription)
         </p>
         <p>
-            @Html.ActionLink("Participate in survey", "Participate", "Survey", new { SurveyId = Model.SurveyId}, null)
+            @Html.ActionLink("Participate in survey", "Participate", "Survey", new { SurveyId = Model.SurveyId }, null)
         </p>
     </div>
 </div>

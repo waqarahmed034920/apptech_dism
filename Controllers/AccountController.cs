@@ -14,7 +14,6 @@ using SurveyPortal.Models;
 
 namespace SurveyPortal.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -52,6 +51,32 @@ namespace SurveyPortal.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        public ActionResult ManagerUser()
+        {
+            var userList = UserManager.Users.ToList();
+            return View(userList);
+        }
+
+        public ActionResult Edit(string id)
+        {
+            var user = UserManager.FindById(id);
+            return View(user);
+        }
+
+        [HttpPost]public ActionResult Edit(ApplicationUser user)
+        {
+            IdentityResult result = UserManager.Update(user);
+            if (user.LockoutEnabled == false)
+            {
+                ViewBag.Message = "User registration accepted and user can login now.";
+            }
+            else
+            {
+                ViewBag.Message = "User details updated successfully, but user registration is not accepted.";
+            }
+            return View(user);
         }
 
         //
@@ -150,14 +175,11 @@ namespace SurveyPortal.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            using (var db = new ApplicationDbContext())
+            var model = new RegisterViewModel
             {
-                var model = new RegisterViewModel
-                {
-                    RoleList = GetRoles()
-                };
-                return View(model);
-            }
+                RoleList = GetRoles()
+            };
+            return View(model);
         }
 
         //
@@ -169,7 +191,12 @@ namespace SurveyPortal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser {
+                    Name = model.Name,
+                    UserName = model.Email, 
+                    Email = model.Email, 
+                    LockoutEnabled = true
+                };
                 switch (model.Role)
                 {
                     case SurveyPortalConstants.STUDENT_ROLL_NAME:
@@ -177,11 +204,13 @@ namespace SurveyPortal.Controllers
                         user.RollNo = model.RollNo;
                         user.ClassName = model.ClassName;
                         user.Section = model.Section;
+                        user.HireDate = new DateTime(1754, 01, 01);
                         break;
                     case SurveyPortalConstants.FACULTY_OR_STAFF_ROLL_NAME:
                         user.EmployeeNo = model.EmployeeNo;
                         user.Specification = model.Specification;
                         user.HireDate = (DateTime)model.HireDate;
+                        user.AdmissionDate = new DateTime(1754, 01, 01);
                         break;
                     default:
                         ModelState.AddModelError("Role", "Please select a valid role");
@@ -190,6 +219,8 @@ namespace SurveyPortal.Controllers
                 }
 
                 var result = await UserManager.CreateAsync(user, model.Password);
+                model.RoleList = GetRoles();
+
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(user.Id, model.Role);
@@ -201,11 +232,10 @@ namespace SurveyPortal.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    model.RoleList = GetRoles();
                     ViewBag.Message = "Your registration has been forwarded to admin. you would receiv an email when accepted.";
-                    return View(model);
                 }
                 AddErrors(result);
+                return View(model);
             }
 
             // If we got this far, something failed, redisplay form

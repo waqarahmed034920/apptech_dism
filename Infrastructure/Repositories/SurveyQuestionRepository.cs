@@ -117,9 +117,10 @@ namespace SurveyPortal.Infrastructure.Repositories
         {
             try
             {
-                string query = "select SO.*, OT.Name AS OptionTypeName from SurveyQuestions AS SO ";
-                query += "inner join OptionTypes AS OT ON SO.OptionTypeId = OT.Id ";
-                query += "where SO.SurveyId = " + SurveyId.ToString();
+                string query = "select SQ.Id, SQ.SurveyId, SQ.Question, SQ.OptionTypeId, ";
+                query += "SQ.Options, SQ.NoOfOptions, OT.Name AS OptionTypeName from SurveyQuestions SQ ";
+                query += "inner join OptionTypes OT ON SQ.OptionTypeId = OT.Id ";
+                query += "where SQ.SurveyId = " + SurveyId.ToString();
 
                 cmd.Connection.Open();
                 cmd.CommandText = query;

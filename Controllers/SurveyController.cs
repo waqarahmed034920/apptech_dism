@@ -13,10 +13,19 @@ namespace SurveyPortal.Controllers
     {
         IRepository<Survey> surveyRepository;
         ISurveyQuestion surveyQuestionRepository;
+        ICompetition competitionRepo;
+
         public SurveyController()
         {
             surveyRepository = new SurveyRepository();
             surveyQuestionRepository = new SurveyQuestionRepository();
+            this.competitionRepo = new CompetitionRepository();
+        }
+
+        public ActionResult SurveyBoard()
+        {
+            Competition currentCompetition = competitionRepo.GetCurrentCompetition();
+            return View();
         }
         // GET: Survey
         public ActionResult Manage()

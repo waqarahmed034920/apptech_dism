@@ -271,6 +271,9 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Views\Account\ManagerUser.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Survey\SurveyBoard.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

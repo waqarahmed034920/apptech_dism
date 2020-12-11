@@ -54,7 +54,8 @@ namespace SurveyPortal.App_Start
                     EmailConfirmed = true,
                     RollNo = "00000",
                     ClassName = "Admin class",
-                    Specification="he is admin"
+                    Specification = "he is admin",
+                    LockoutEnabled = false
                 };
 
                 userManager.Create(user, "Test123!");
