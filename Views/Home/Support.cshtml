@@ -1,67 +1,29 @@
-﻿
+﻿@model IEnumerable<SurveyPortal.Models.SupportInfo>
+
 @{
     ViewBag.Title = "Support";
 }
 
 <h2>Support</h2>
 
-<div class="row">
-    <div class="media-body">
-        <div class="text-danger">
-            If you are doing any survey and stuck somewhere please contact Ishrat ul Ebaad from faculty of Arts his contact details are given below.
+
+@foreach (var item in Model)
+{
+
+    <div class="row">
+        <div class="media-body">
+            <h4>@Html.DisplayFor(modelItem => item.ShortDesc)</h4>
+            <div class="text-primary text-info">
+                @Html.DisplayFor(modelItem => item.Description)
+            </div>
+            <p class="text-info">
+                Contact: @Html.DisplayFor(modelItem => item.Contact)<br />
+                Email: @Html.DisplayFor(modelItem => item.Email)<br />
+                Phone: @Html.DisplayFor(modelItem => item.Phone)<br />
+                WhatsApp: @Html.DisplayFor(modelItem => item.WhatsApp)<br />
+                Skype Id: @Html.DisplayFor(modelItem => item.SkypeId)<br />
+                Web Address: @Html.DisplayFor(modelItem => item.WebAddress)<br />
+            </p>
         </div>
-        <p class="text-info">
-            Email: waqar033@gmail.com<br />
-            Phone: +92 213 456789<br />
-            Address: Aptech Nursery, Karachi.<br />
-            Skype: waqar033@gmail.com<br />
-        </p>
     </div>
-</div>
-
-
-<div class="row">
-    <div class="border">
-        <div class="text-danger">
-            If you are doing any survey and stuck somewhere please contact Ishrat ul Ebaad from faculty of Arts his contact details are given below.
-        </div>
-        <p class="text-info">
-            Email: salman00@gmail.com<br />
-            Phone: +92 213 456789<br />
-            Address: Aptech Nursery, Karachi.<br />
-            Skype: salman00@gmail.com<br />
-        </p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="media-body">
-        <div class="text-danger">
-            If you are doing any survey and stuck somewhere please contact Ishrat ul Ebaad from faculty of Arts his contact details are given below.
-        </div>
-        <p class="text-info">
-            Email: Hasnain022@gmail.com.<br />
-            Phone: +92 213 456789<br />
-            Address: Aptech Nursery, Karachi.<br />
-            Skype: Hasnain022@gmail.com.<br />
-        </p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="media-body">
-        <div class="text-danger">
-            If you are doing any survey and stuck somewhere please contact Ishrat ul Ebaad from faculty of Arts his contact details are given below.
-        </div>
-        <p class="text-info">
-            Email: Usman032@gmail.com<br />
-            Phone: +92 213 456789<br />
-            Address: Aptech Nursery, Karachi.<br />
-            Skype: Usman032@gmail.com<br />
-        </p>
-    </div>
-</div>
-
-
-
-
+}

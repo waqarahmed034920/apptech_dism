@@ -163,6 +163,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OptionTypeController.cs" />
+    <Compile Include="Controllers\SupportInfoController.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\SurveyQuestionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -174,6 +175,7 @@
     <Compile Include="Infrastructure\Repositories\CompetitionRepository.cs" />
     <Compile Include="Infrastructure\Repositories\FAQRepository.cs" />
     <Compile Include="Infrastructure\Repositories\OptionTypeRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\SupportInfoRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyQuestionRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyResponseRepository.cs" />
@@ -183,6 +185,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OptionType.cs" />
+    <Compile Include="Models\SupportInfo.cs" />
     <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\SurveyPortalConstants.cs" />
     <Compile Include="Models\SurveyQuestion.cs" />
@@ -274,6 +277,10 @@
     <Content Include="Views\Account\ManagerUser.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Survey\SurveyBoard.cshtml" />
+    <Content Include="Views\Account\AdminHome.cshtml" />
+    <Content Include="Views\SupportInfo\ManageSupport.cshtml" />
+    <Content Include="Views\SupportInfo\Create.cshtml" />
+    <Content Include="Views\SupportInfo\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

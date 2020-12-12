@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LockoutEnabled)
+            @Html.DisplayNameFor(model => model.RegistrationAccepted)
         </th>
         <th></th>
     </tr>
@@ -42,7 +42,7 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LockoutEnabled)
+                @Html.DisplayFor(modelItem => item.RegistrationAccepted)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

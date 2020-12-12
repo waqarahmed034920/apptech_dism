@@ -86,11 +86,10 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from FAQs where id = " + Id.ToString(); ;
+                cmd.CommandText = "select * from FAQs where id = " + Id.ToString();
                 SqlDataReader myReader = cmd.ExecuteReader();
                 FAQ objfaq = null;
                 while (myReader.Read())
-
                 {
                     objfaq = new FAQ();
                     objfaq.Id = Convert.ToInt32(myReader["id"]);

@@ -25,7 +25,7 @@ namespace SurveyPortal.Controllers
         public ActionResult SurveyBoard()
         {
             Competition currentCompetition = competitionRepo.GetCurrentCompetition();
-            return View();
+            return View(currentCompetition);
         }
         // GET: Survey
         public ActionResult Manage()

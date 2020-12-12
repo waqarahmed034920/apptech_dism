@@ -18,6 +18,7 @@ namespace SurveyPortal.App_Start
             InitOptionType(db);
             InitFAQ(db);
             InitSurvey(db);
+            InitSupportInfo(db);
         }
 
         private static void InitRoles(ApplicationDbContext db)
@@ -47,15 +48,15 @@ namespace SurveyPortal.App_Start
                 var user = new ApplicationUser()
                 {
                     UserName = SurveyPortalConstants.ADMIN_USER_NAME,
-                    Email = "admin@yahoo.com",
-                    AdmissionDate = new System.DateTime(2005, 09, 15),
-                    HireDate = new System.DateTime(2005, 09, 15),
+                    Email = "admin@getnada.com",
+                    AdmissionDate = new System.DateTime(1754, 01, 01),
+                    HireDate = new System.DateTime(1754, 01, 01),
                     Name = "Waqar Ahmed",
                     EmailConfirmed = true,
                     RollNo = "00000",
                     ClassName = "Admin class",
                     Specification = "he is admin",
-                    LockoutEnabled = false
+                    RegistrationAccepted = true
                 };
 
                 userManager.Create(user, "Test123!");
@@ -174,6 +175,67 @@ namespace SurveyPortal.App_Start
             db.surveyQuestions.Add(new SurveyQuestion() { Question = "Do you have regular water supply in your area?", NoOfOptions = 3, Options = "Yes!No!Dont Know", OptionTypeId = 1, SurveyId = sId });
 
             db.SaveChanges();
+        }
+
+        private static void InitSupportInfo(ApplicationDbContext db)
+        {
+            var rows = from ques in db.SupportInfoes
+                       select ques;
+            foreach (var row in rows)
+            {
+                db.SupportInfoes.Remove(row);
+            }
+            db.SaveChanges();
+
+            db.SupportInfoes.Add(new SupportInfo()
+            {
+                Contact = "Bill Gates",
+                ShortDesc = "Please find the support info below.",
+                Description = "If you are stuck in survey at any point or need some information about the competition please goto competition page or contact the following support contact.",
+                Email = "b.gates@getnada.com",
+                WebAddress = "https://www.aptech.pk",
+                Phone = "0092000000",
+                WhatsApp = "0000000000",
+                SkypeId = "skypeid@getnada.com"
+            });
+
+            db.SupportInfoes.Add(new SupportInfo()
+            {
+                Contact = "Salman Hussain",
+                ShortDesc = "Please find the support info below.",
+                Description = "If you are stuck in survey at any point or need some information about the competition please goto competition page or contact the following support contact.",
+                Email = "s.hussain@getnada.com",
+                WebAddress = "https://www.aptech.pk",
+                Phone = "0092000000",
+                WhatsApp = "0000000000",
+                SkypeId = "salman00@gmail.com"
+            });
+
+            db.SupportInfoes.Add(new SupportInfo()
+            {
+                Contact = "Husnain Khan",
+                ShortDesc = "Please find the support info below.",
+                Description = "If you are stuck in survey at any point or need some information about the competition please goto competition page or contact the following support contact.",
+                Email = "h.khan@getnada.com",
+                WebAddress = "https://www.aptech.pk",
+                Phone = "0092000000",
+                WhatsApp = "0000000000",
+                SkypeId = "skypeid@getnada.com"
+            });
+
+            db.SupportInfoes.Add(new SupportInfo()
+            {
+                Contact = "Usman Jaffery",
+                ShortDesc = "Please find the support info below.",
+                Description = "If you are stuck in survey at any point or need some information about the competition please goto competition page or contact the following support contact.",
+                Email = "u.jaffery@getnada.com",
+                WebAddress = "https://www.aptech.pk",
+                Phone = "0092000000",
+                WhatsApp = "0000000000",
+                SkypeId = "skypeid@getnada.com"
+            });
+            db.SaveChanges();
+
         }
     }
 }

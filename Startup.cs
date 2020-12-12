@@ -10,7 +10,7 @@ namespace SurveyPortal
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            IdentityDataInitializer.InitializeData();
+            // IdentityDataInitializer.InitializeData();
         }
     }
 }

@@ -26,6 +26,7 @@ namespace SurveyPortal.Models
         public string EmployeeNo { get; set; }
         public string Specification { get; set; }
         public DateTime HireDate { get; set; }
+        public bool? RegistrationAccepted { get; set; }
 
     }
 
@@ -67,6 +68,10 @@ namespace SurveyPortal.Models
                 .Property(p => p.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
+            builder.Entity<SupportInfo>()
+                .Property(p => p.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
             base.OnModelCreating(builder);
         }
         public DbSet<Competition> Competitions { get; set; }
@@ -75,6 +80,7 @@ namespace SurveyPortal.Models
         public DbSet<FAQ> FAQs { get; set; }
         public DbSet<OptionType> OptionTypes { get; set; }
         public DbSet<SurveyResponse> SurveyResponses { get; set; }
+        public DbSet<SupportInfo> SupportInfoes { get; set; }
 
     }
 }

@@ -84,6 +84,7 @@ namespace SurveyPortal.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -100,23 +101,41 @@ namespace SurveyPortal.Controllers
                 return View(model);
             }
 
+            var user = UserManager.FindByEmailAsync(model.Email).Result;
+            if ((user.RegistrationAccepted.HasValue && !user.RegistrationAccepted.Value) || !user.RegistrationAccepted.HasValue)
+            {
+                ModelState.AddModelError("", "Your registration is still in progress.");
+                return View();
+            }
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            SignInStatus result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (UserManager.IsInRole(user.Id, SurveyPortalConstants.ADMIN_ROLL_NAME))
+                    {
+                        return RedirectToAction("AdminHome");
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", result.ToString());
                     return View(model);
             }
         }
+
+        public ActionResult AdminHome()
+        {
+            return View();
+        }        
 
         //
         // GET: /Account/VerifyCode
@@ -177,7 +196,14 @@ namespace SurveyPortal.Controllers
         {
             var model = new RegisterViewModel
             {
-                RoleList = GetRoles()
+                RoleList = GetRoles(),
+                Email = "a.ali@getnada.com",
+                Name = "Ahmed Ali.",
+                RollNo = "0002",
+                ClassName = "DISM",
+                Section = "B",
+                AdmissionDate = new DateTime(2020, 08, 14),
+                Password = "Test123!"
             };
             return View(model);
         }
@@ -195,7 +221,7 @@ namespace SurveyPortal.Controllers
                     Name = model.Name,
                     UserName = model.Email, 
                     Email = model.Email, 
-                    LockoutEnabled = true
+                    RegistrationAccepted = false
                 };
                 switch (model.Role)
                 {

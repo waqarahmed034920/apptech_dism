@@ -7,7 +7,8 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
+<body class="p-3 mb-2 bg-light text-dark">
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -36,6 +37,7 @@
                             <li>@Html.ActionLink("Manage Option Types", "Index", "OptionType")</li>
                             <li>@Html.ActionLink("Manage Survey", "Manage", "Survey")</li>
                             <li>@Html.ActionLink("Manage Competition", "Index", "Competition")</li>
+                            <li>@Html.ActionLink("Manage Support Info", "ManageSupport", "Supportinfo")</li>
                         </ul>
                     </li>
                 </ul>
