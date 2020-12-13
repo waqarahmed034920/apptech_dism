@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SurveyPortal.Infrastructure;
 using SurveyPortal.Models;
 using System.Linq;
 
@@ -47,15 +48,12 @@ namespace SurveyPortal.App_Start
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = SurveyPortalConstants.ADMIN_USER_NAME,
-                    Email = "admin@getnada.com",
+                    UserName = SurveyPortalConstants.ADMIN_EMAIL,
+                    Email = SurveyPortalConstants.ADMIN_EMAIL,
                     AdmissionDate = new System.DateTime(1754, 01, 01),
                     HireDate = new System.DateTime(1754, 01, 01),
                     Name = "Waqar Ahmed",
                     EmailConfirmed = true,
-                    RollNo = "00000",
-                    ClassName = "Admin class",
-                    Specification = "he is admin",
                     RegistrationAccepted = true
                 };
 

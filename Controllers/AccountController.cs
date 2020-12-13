@@ -1,16 +1,14 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SurveyPortal.App_Start;
+using SurveyPortal.Infrastructure;
 using SurveyPortal.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace SurveyPortal.Controllers
 {
@@ -58,19 +56,23 @@ namespace SurveyPortal.Controllers
             var userList = UserManager.Users.ToList();
             return View(userList);
         }
-
         public ActionResult Edit(string id)
         {
             var user = UserManager.FindById(id);
             return View(user);
         }
 
-        [HttpPost]public ActionResult Edit(ApplicationUser user)
+        [HttpPost]
+        public ActionResult Edit(ApplicationUser model)
         {
-            IdentityResult result = UserManager.Update(user);
-            if (user.LockoutEnabled == false)
+            var user = (ApplicationUser)UserManager.FindById(model.Id);
+            user.RegistrationAccepted = model.RegistrationAccepted;
+            user.EmailConfirmed = model.EmailConfirmed;
+            UserManager.Update(user);
+
+            if (user.RegistrationAccepted.HasValue && user.RegistrationAccepted.Value == true)
             {
-                ViewBag.Message = "User registration accepted and user can login now.";
+                ViewBag.Message = "User registration accepted and user can now login.";
             }
             else
             {

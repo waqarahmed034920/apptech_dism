@@ -1,4 +1,5 @@
-﻿using SurveyPortal.Models;
+﻿using SurveyPortal.Infrastructure;
+using SurveyPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

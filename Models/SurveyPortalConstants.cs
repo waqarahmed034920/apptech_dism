@@ -11,5 +11,6 @@ namespace SurveyPortal.Models
         public const string STUDENT_ROLL_NAME = "Student";
         public const string ADMIN_ROLL_NAME = "Admin";
         public const string ADMIN_USER_NAME = "Admin";
+        public const string ADMIN_EMAIL = "admin@getnada.com";
     }
 }
