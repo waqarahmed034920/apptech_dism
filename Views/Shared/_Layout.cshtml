@@ -7,9 +7,9 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body class="p-3 mb-2 bg-light text-dark">
+<body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div @*class="navbar navbar-inverse navbar-fixed-top"*@   class="p-3 mb-2 bg-info text-white navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -47,7 +47,7 @@
                 </ul>
             </div>
         </div>
-    </div>*
+    </div>
 
 
 
@@ -56,9 +56,94 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - APTECH Survey Portal</p>
-        </footer>
+        @*<footer>*@
+            @*<p>&copy; @DateTime.Now.Year - APTECH Survey Portal</p>*@
+
+
+            <!-- Footer -->
+            <footer class="page-footer font-small blue pt-4    p-3 mb-2 bg-info text-white">
+
+                <!-- Footer Links -->
+                <div class="container-fluid text-center text-md-left">
+
+                    <!-- Grid row -->
+                    <div class="row">
+
+                        <!-- Grid column -->
+                        <div class="col-md-6 mt-md-0 mt-3">
+
+                            <!-- Content -->
+                            <h5 class="text-uppercase" >Use Cases:</h5>
+                            <p>Online Polls Facebook Surveys survey template Scheduling PollsGoogle Forms vs. Survey Portal Satisfaction  Survey Templates Surveys How to Improve Customer ServiceAB Test Significance CalculatorNPS Calculatorquestionnaire templates Event Survey</p>
+
+                        </div>
+                        <!-- Grid column -->
+
+                        <hr class="clearfix w-100 d-md-none pb-3">
+
+                        <!-- Grid column -->
+                        <div class="col-md-3 mb-md-0 mb-3">
+
+                            <!-- Links -->
+                            <h5 class="text-uppercase">Community</h5>
+
+                            <ul class="list-unstyled">
+                               
+                                <li>
+                                    <a href="#!">Facebook</a>
+                                </li>
+                                <li>
+                                    <a href="#!">Twitter</a>
+                                </li>
+                                <li>
+                                    <a href="#!">YouTube</a>
+                                </li>
+                                <li>
+                                    <a href="#!">Instagram</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <!-- Grid column -->
+                        <!-- Grid column -->
+                        <div class="col-md-3 mb-md-0 mb-3">
+
+                            <!-- Links -->
+                            <h5 class="text-uppercase">About Us:</h5>
+
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="#!">Leadership Team</a>
+                                </li>
+                                <li>
+                                    <a href="#!">Leadership Team</a>
+                                </li>
+                                <li>
+                                    <a href="#!">Investor Relations</a>
+                                </li>
+                                <li>
+                                    <a href="#!">App Directory</a>
+                                </li>
+                               
+                            </ul>
+
+                        </div>
+                        <!-- Grid column -->
+
+                    </div>
+                    <!-- Grid row -->
+
+                </div>
+                <!-- Footer Links -->
+                <!-- Copyright -->
+                <div class="footer-copyright text-center py-3">
+                    <p>&copy: @DateTime.Now.Year - APTECH Survey Portal</p> 
+                </div>
+                <!-- Copyright -->
+
+            </footer>
+            <!-- Footer -->
+        @*</footer>*@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
