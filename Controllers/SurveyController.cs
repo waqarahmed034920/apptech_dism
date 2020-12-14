@@ -34,6 +34,8 @@ namespace SurveyPortal.Controllers
             return View(lst);
         }
 
+
+        [Authorize]
         public ActionResult Participate(int SurveyId)
         {
             Survey survey = this.surveyRepository.GetById(SurveyId);

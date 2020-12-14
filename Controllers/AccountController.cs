@@ -199,8 +199,8 @@ namespace SurveyPortal.Controllers
             var model = new RegisterViewModel
             {
                 RoleList = GetRoles(),
-                Email = "a.ali@getnada.com",
-                Name = "Ahmed Ali.",
+                Email = "sulman@getnada.com",
+                Name = "Sulman.",
                 RollNo = "0002",
                 ClassName = "DISM",
                 Section = "B",
