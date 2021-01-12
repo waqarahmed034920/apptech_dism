@@ -4,7 +4,7 @@
     ViewBag.Title = "Manage";
 }
 
-<h2>Manage</h2>
+<h2>Manage Survey</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -33,9 +33,6 @@
 
 @foreach (var item in Model) {
 <tr>
-    <td>
-        +
-    </td>
     <td>
         @Html.DisplayFor(modelItem => item.Name)
     </td>

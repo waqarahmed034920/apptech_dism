@@ -2,6 +2,7 @@
 using SurveyPortal.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace SurveyPortal.Infrastructure.Repositories
         //Constroctor
         public FAQRepository()
         {
-            SqlConnection connection = new SqlConnection(Properties.Settings.Default.connectionstring);
+            var conString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            SqlConnection connection = new SqlConnection(conString);
             cmd = new SqlCommand();
             cmd.Connection = connection;
             cmd.CommandType = CommandType.Text;
@@ -26,7 +28,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "delete from FAQ where id = " + Id.ToString();
+                cmd.CommandText = "delete from FAQs where id = " + Id.ToString();
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {
@@ -53,7 +55,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from FAQ";
+                cmd.CommandText = "select * from FAQs";
                 SqlDataReader myReader = cmd.ExecuteReader();
                 List<FAQ> faq = new List<FAQ>();
                 while (myReader.Read())
@@ -62,8 +64,8 @@ namespace SurveyPortal.Infrastructure.Repositories
                     objfaq.Id = Convert.ToInt32(myReader["id"]);
                     objfaq.Question = myReader["Question"].ToString();
                     objfaq.Answer = myReader["Answer"].ToString();
-                    objfaq.UpdateOn = Convert.ToDateTime(myReader["UpdateOn"]);
-                    objfaq.UpdateBy = myReader["UpdateBy"].ToString();
+                    objfaq.UpdatedOn = Convert.ToDateTime(myReader["UpdatedOn"]);
+                    objfaq.UpdatedBy = myReader["UpdatedBy"].ToString();
                     faq.Add(objfaq);
                 }
                 myReader.Close();
@@ -84,18 +86,17 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from FAQ where id = " + Id.ToString(); ;
+                cmd.CommandText = "select * from FAQs where id = " + Id.ToString();
                 SqlDataReader myReader = cmd.ExecuteReader();
                 FAQ objfaq = null;
                 while (myReader.Read())
-
                 {
                     objfaq = new FAQ();
                     objfaq.Id = Convert.ToInt32(myReader["id"]);
                     objfaq.Question = myReader["Question"].ToString();
                     objfaq.Answer = myReader["Answer"].ToString();
-                    objfaq.UpdateOn = Convert.ToDateTime(myReader["UpdateOn"]);
-                    objfaq.UpdateBy = myReader["UpdateBy"].ToString();
+                    objfaq.UpdatedOn = Convert.ToDateTime(myReader["UpdatedOn"]);
+                    objfaq.UpdatedBy = myReader["UpdatedBy"].ToString();
                 }
                 myReader.Close();
                 return objfaq;
@@ -115,7 +116,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "insert into FAQ(Question, Answer,UpdateOn,UpdateBy ) values('" + objT.Question + "','" + objT.Answer + "','" + objT.UpdateOn + "','" + objT.UpdateBy + "')";
+                cmd.CommandText = "insert into FAQs(Question, Answer,UpdatedOn,UpdatedBy ) values('" + objT.Question + "','" + objT.Answer + "','" + objT.UpdatedOn + "','" + objT.UpdatedBy + "')";
 
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
@@ -143,7 +144,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "update FAQ set Question = '" + objT.Question + "', Answer = '" + objT.Answer + "' ,UpdateOn = '" + objT.UpdateOn + "' ,UpdateBy = '" + objT.UpdateBy + "' where id =  '" + objT.Id + "'";
+                cmd.CommandText = "update FAQs set Question = '" + objT.Question + "', Answer = '" + objT.Answer + "' ,UpdatedOn = '" + objT.UpdatedOn + "' ,UpdatedBy = '" + objT.UpdatedBy + "' where id =  '" + objT.Id + "'";
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {

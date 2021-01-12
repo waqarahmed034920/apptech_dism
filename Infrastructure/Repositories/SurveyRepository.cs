@@ -2,6 +2,7 @@
 using SurveyPortal.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -12,7 +13,8 @@ namespace SurveyPortal.Infrastructure.Repositories
         public SqlCommand cmd;
         public SurveyRepository()
         {
-            SqlConnection connection = new SqlConnection(Properties.Settings.Default.connectionstring);
+            var conString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            SqlConnection connection = new SqlConnection(conString);
             cmd = new SqlCommand();
             cmd.Connection = connection;
             cmd.CommandType = CommandType.Text;
@@ -22,7 +24,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "delete from survey where id = " + Id.ToString();
+                cmd.CommandText = "delete from surveys where id = " + Id.ToString();
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {
@@ -49,7 +51,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from Survey";
+                cmd.CommandText = "select * from Surveys";
                 SqlDataReader myReader = cmd.ExecuteReader();
                 List<Survey> lstSurvey = new List<Survey>();
                 while (myReader.Read())
@@ -62,6 +64,7 @@ namespace SurveyPortal.Infrastructure.Repositories
                     objSurvey.BackButton = Convert.ToBoolean(myReader["BackButton"]);
                     objSurvey.Reviewable = Convert.ToBoolean(myReader["Reviewable"]);
                     objSurvey.InternalOnly = Convert.ToBoolean(myReader["InternalOnly"]);
+                    objSurvey.SurveyFor = myReader["SurveyFor"].ToString();
                     lstSurvey.Add(objSurvey);
                 }
                 myReader.Close();
@@ -83,7 +86,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from Survey where id = " + Id.ToString();
+                cmd.CommandText = "select * from Surveys where id = " + Id.ToString();
                 SqlDataReader myReader = cmd.ExecuteReader();
                 Survey objSurvey = null;
                 while (myReader.Read())
@@ -96,6 +99,7 @@ namespace SurveyPortal.Infrastructure.Repositories
                     objSurvey.BackButton = Convert.ToBoolean(myReader["BackButton"]);
                     objSurvey.Reviewable = Convert.ToBoolean(myReader["Reviewable"]);
                     objSurvey.InternalOnly = Convert.ToBoolean(myReader["InternalOnly"]);
+                    objSurvey.SurveyFor = myReader["SurveyFor"].ToString();
                 }
                 myReader.Close();
                 return objSurvey;
@@ -116,7 +120,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "insert into Survey(name, startdate, enddate, BackButton, Reviewable, InternalOnly ) values('" + objT.Name + "','" + objT.StartDate + "','" + objT.EndDate + "', '" + objT.BackButton + "', '" + objT.Reviewable + "', '" + objT.InternalOnly + "')";
+                cmd.CommandText = "insert into Surveys(name, startdate, enddate, BackButton, Reviewable, InternalOnly, SurveyFor) values('" + objT.Name + "','" + objT.StartDate + "','" + objT.EndDate + "', '" + objT.BackButton + "', '" + objT.Reviewable + "', '" + objT.InternalOnly + "', '" + objT.SurveyFor + "')";
 
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
@@ -144,12 +148,13 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "update Survey set name = '" + objT.Name + 
+                cmd.CommandText = "update Surveys set name = '" + objT.Name + 
                     "', StartDate = '" + objT.StartDate + 
                     "', endDate = '" + objT.EndDate +
                     "', BackButton= '" + objT.BackButton +
                     "', Reviewable= '" + objT.Reviewable +
                     "', InternalOnly= '" + objT.InternalOnly +
+                    "', SurveyFor = '" + objT.SurveyFor +
                     "' where id =  '" + objT.Id + "'";
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)

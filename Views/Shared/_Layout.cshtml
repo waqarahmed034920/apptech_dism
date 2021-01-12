@@ -7,7 +7,8 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
+<body class="p-3 mb-2 bg-light text-dark">
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -23,26 +24,29 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Survey Board", "SurveyBoard", "Survey")</li>
-                    <li>@Html.ActionLink("Support", "Index", "Support")</li>
-                    <li>@Html.ActionLink("FAQs", "Index", "Faq")</li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Admin
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("Manage FAQs", "Index", "Faq")</li>
-                            <li>@Html.ActionLink("Manage Users", "Index", "User")</li>
-                            <li>@Html.ActionLink("Manage Option Types", "Index", "OptionType")</li>
-                            <li>@Html.ActionLink("Manage Survey", "Manage", "Survey")</li>
-                        </ul>
-                    </li>
+                    <li>@Html.ActionLink("Support", "Support", "Home")</li>
+                    <li>@Html.ActionLink("FAQs", "Faq", "Home")</li>
+                    @{ 
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Admin
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("Manage FAQs", "Index", "Faq")</li>
+                                    <li>@Html.ActionLink("Manage Users", "ManagerUser", "Account")</li>
+                                    <li>@Html.ActionLink("Manage Option Types", "Index", "OptionType")</li>
+                                    <li>@Html.ActionLink("Manage Survey", "Manage", "Survey")</li>
+                                    <li>@Html.ActionLink("Manage Competition", "Index", "Competition")</li>
+                                    <li>@Html.ActionLink("Manage Support Info", "ManageSupport", "Supportinfo")</li>
+                                </ul>
+                            </li>
+                        }
+                    }
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("Register", "Register", "User", null, new { @class = "glyphicon glyphicon-user" })</li>
-                    <li>@Html.ActionLink("Profile", "Profile", "User", null, new { @class = "glyphicon glyphicon-user" })</li>
-                    <li>@Html.ActionLink("Login", "Login", "User", null, new { @class = "glyphicon glyphicon-log-in" })</li>
-                </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>*
@@ -65,42 +69,3 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
-
-
-@*<div>
-        <a href="#" style="margin-top:29px;margin-left:15px;"
-           class="btn btn-info add-row" role="button"> <i class="fa fa-plus"></i> Add Row</a>
-    </div>
-    <div id="firstDriver_initialForm">
-        <form method="post" id="frmElements" class="form-group">
-            @Html.HiddenFor(model => model.IncrementValue)
-            <div class="container">
-                <div class="dynamic-rows">
-                    <div class="row" id="template" data-order="0">
-                        <div class="row filter">
-                            <div class="col-md-3">
-                                <label class="bold">Enter Name:</label>
-                                @Html.TextBoxFor(model => model.lstTemplateModels.Name, new { @class = "form-control demo", placeholder = "Enter Name" })
-                            </div>
-                            <div class="col-md-3">
-                                <label class="bold">Remember Me:</label>
-                                @Html.CheckBoxFor(model => model.lstTemplateModels.IsChecked, new { @class = "form-control form-check-input", @style = "margin-top:12px;height:20px;" })
-                            </div>
-                            <div class="col-md-3">
-                                <label class="bold">DropDown:</label>
-                                @Html.DropDownListFor(model => model.lstTemplateModels.DropDownValue, new List<SelectListItem>
-                           {
-                               new SelectListItem {Text="Single",Value="SINGLE"},
-                               new SelectListItem {Text="Married",Value="MARRIED"}
-                           }, "Select Status", new { @class = "form-control" })
-                            </div>
-                            <div class="col-md-3">
-                                <button style="margin-top:31px;" type="submit" class="btn btn-danger delete-row" data-val="0"><i class="fa fa-trash"></i> Delete Row</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <button style="margin-top:18px;margin-left:35px;" id="saveTemplate" type="submit" class="btn btn-success">Submit</button>*@

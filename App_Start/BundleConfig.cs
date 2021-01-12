@@ -23,7 +23,7 @@ namespace SurveyPortal
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/userScripts").Include(
-                "~/Scripts/surveyScripts/survey.js"));
+                "~/Scripts/surveyScripts/*.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

@@ -6,6 +6,7 @@ using System.Web;
 using SurveyPortal.Models;
 using System.Data.SqlClient;
 using System.Data;
+using System.Configuration;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
@@ -14,7 +15,8 @@ namespace SurveyPortal.Infrastructure.Repositories
         public SqlCommand cmd;
         public SurveyResponseRepository()
         {
-            SqlConnection connection = new SqlConnection(Properties.Settings.Default.connectionstring);
+            var conString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            SqlConnection connection = new SqlConnection(conString);
             cmd = new SqlCommand();
             cmd.Connection = connection;
             cmd.CommandType = CommandType.Text;
@@ -24,7 +26,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "delete from surveyResponse where id = " + Id.ToString();
+                cmd.CommandText = "delete from surveyResponses where id = " + Id.ToString();
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {
@@ -38,7 +40,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             finally
             {
@@ -51,7 +53,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from Tasks";
+                cmd.CommandText = "select * from SurveyResponses";
                 SqlDataReader myReader = cmd.ExecuteReader();
                 List<SurveyResponse> lstSurveyResponse = new List<SurveyResponse>();
                 while (myReader.Read())
@@ -81,7 +83,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "select * from SurveyResponse where id = " + Id.ToString();
+                cmd.CommandText = "select * from SurveyResponses where id = " + Id.ToString();
                 SqlDataReader myReader = cmd.ExecuteReader();
                 SurveyResponse objSurveyResponse = null;
                 while (myReader.Read())
@@ -110,7 +112,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "insert into SurveyResponse(userid,ResponseDate,Response) values('" + objT.UserId + "','" + objT.ResponseDate + "','" + objT.Response + "')";
+                cmd.CommandText = "insert into SurveyResponses(userid,ResponseDate,Response) values('" + objT.UserId + "','" + objT.ResponseDate + "','" + objT.Response + "')";
 
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
@@ -137,7 +139,7 @@ namespace SurveyPortal.Infrastructure.Repositories
             try
             {
                 cmd.Connection.Open();
-                cmd.CommandText = "update SurveyResponse set userid = '" + objT.UserId + "', ResponseDate = '" + objT.ResponseDate + "', Response = '" + objT.Response + "' where id =  '" + objT.Id + "'";
+                cmd.CommandText = "update SurveyResponses set userid = '" + objT.UserId + "', ResponseDate = '" + objT.ResponseDate + "', Response = '" + objT.Response + "' where id =  '" + objT.Id + "'";
                 int noOfRowsAffected = cmd.ExecuteNonQuery();
                 if (noOfRowsAffected >= 1)
                 {

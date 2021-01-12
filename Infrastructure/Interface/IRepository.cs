@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SurveyPortal.Infrastructure.Interface
 {
+   
     public interface IRepository<T> where T: class
     {
         bool Insert(T objT);

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<SurveyPortal.Models.SupportInfo>
+
+@{
+    ViewBag.Title = "Support";
+}
+
+<h2>Support</h2>
+
+
+@foreach (var item in Model)
+{
+
+    <div class="row">
+        <div class="media-body">
+            <h4>@Html.DisplayFor(modelItem => item.ShortDesc)</h4>
+            <div class="text-primary text-info">
+                @Html.DisplayFor(modelItem => item.Description)
+            </div>
+            <p class="text-info">
+                Contact: @Html.DisplayFor(modelItem => item.Contact)<br />
+                Email: @Html.DisplayFor(modelItem => item.Email)<br />
+                Phone: @Html.DisplayFor(modelItem => item.Phone)<br />
+                WhatsApp: @Html.DisplayFor(modelItem => item.WhatsApp)<br />
+                Skype Id: @Html.DisplayFor(modelItem => item.SkypeId)<br />
+                Web Address: @Html.DisplayFor(modelItem => item.WebAddress)<br />
+            </p>
+        </div>
+    </div>
+}

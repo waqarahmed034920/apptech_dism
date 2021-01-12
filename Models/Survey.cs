@@ -12,6 +12,7 @@ namespace SurveyPortal.Models
 
         [Required(ErrorMessage = "Survey name is required")]
         public string Name { get; set; }
+        public string Description { get; set; }
 
         [Required(ErrorMessage = "Start date is required")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
@@ -27,6 +28,8 @@ namespace SurveyPortal.Models
         public bool Reviewable { get; set; }
         [Display(Name = "Internal Survey")]
         public bool InternalOnly { get; set; }
+        public string SurveyFor { get; set; }
+
 
     }
 }

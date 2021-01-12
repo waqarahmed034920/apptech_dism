@@ -25,13 +25,27 @@
         <div class="col-md-6">
             <label class="col-md-3">Back Button:</label>
             <div class="col-md-3">
-                @Html.DisplayFor(model => model.Survey.BackButton)
+                @if (Model.Survey.BackButton == true)
+                {
+                    <span>Yes</span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
             </div>
         </div>
         <div class="col-md-6">
             <label class="col-md-3">Renewable:</label>
             <div class="col-md-3">
-                @Html.DisplayFor(model => model.Survey.Reviewable)
+                @if (Model.Survey.Reviewable == true)
+                {
+                    <span>Yes</span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
             </div>
         </div>
     </div>
@@ -40,7 +54,20 @@
         <div class="col-md-6">
             <label class="col-md-3">Internal Only:</label>
             <div class="col-md-3">
-                @Html.DisplayFor(model => model.Survey.InternalOnly)
+                @if (Model.Survey.InternalOnly == true)
+                {
+                    <span>Yes</span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label class="col-md-3">Survey For:</label>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.Survey.SurveyFor)
             </div>
         </div>
     </div>
@@ -64,44 +91,9 @@
 
 @section Scripts{
     <script>
+        
         var model = @Html.Raw(Json.Encode(Model));
-        var index = 0;
-
-        function GetNextQuestion(index) {
-            var question = model['Questions'][index];
-
-            if (question !== undefined) {
-                document.getElementById('questionDiv').innerHTML = (index + 1) + ". " + question['Question'];
-
-                var options = question['Options'];
-                var Items = options.split('!');
-                str = "";
-                Items.forEach(function (item) {
-                    if (question['OptionTypeId'] == 1) {
-                        str += "<div style=\"padding: 5px;\"><input type=\"radio\" name=\"radio-group\" value=\"" + item + " \"><span style=\"padding: 5px; \">" + item + "</span></div>";
-                    }
-                    else if (question.OptionTypeId == 2) {
-                        str += "<div style=\"padding: 5px;\"><input type=\"checkbox\" value=\"" + item + " \"><span style=\"padding: 5px; \">" + item + "</span></div>";
-                    }
-                });
-                document.getElementById('optionDiv').innerHTML = str;
-            }
-
-        }
-
-        function next() {
-            if (index < model['Questions'].length) {
-                GetNextQuestion(index++);
-            }
-        }
-
-        function previous() {
-            if (index > 0) {
-                GetNextQuestion(index--);
-            }
-        }
-
-        GetNextQuestion(0);
+        setModel(model);
 
     </script>
 } 

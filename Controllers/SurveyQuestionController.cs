@@ -15,7 +15,7 @@ namespace SurveyPortal.Controllers
         IRepository<OptionType> optionTypeRepository;
         IRepository<Survey> surveyRepository;
         ISurveyQuestion surveyQuestionRepository;
-
+        //constructor
         public SurveyQuestionController()
         {
             optionTypeRepository = new OptionTypeRepository();

@@ -13,10 +13,19 @@ namespace SurveyPortal.Controllers
     {
         IRepository<Survey> surveyRepository;
         ISurveyQuestion surveyQuestionRepository;
+        ICompetition competitionRepo;
+
         public SurveyController()
         {
             surveyRepository = new SurveyRepository();
             surveyQuestionRepository = new SurveyQuestionRepository();
+            this.competitionRepo = new CompetitionRepository();
+        }
+
+        public ActionResult SurveyBoard()
+        {
+            Competition currentCompetition = competitionRepo.GetCurrentCompetition();
+            return View(currentCompetition);
         }
         // GET: Survey
         public ActionResult Manage()
@@ -25,6 +34,17 @@ namespace SurveyPortal.Controllers
             return View(lst);
         }
 
+
+        [Authorize]
+        public ActionResult Participate(int SurveyId)
+        {
+            Survey survey = this.surveyRepository.GetById(SurveyId);
+            List<SurveyQuestion> questions = this.surveyQuestionRepository.GetQuestionsBySurveyId(SurveyId);
+            ViewModelSurveyQuestion viewModel = new ViewModelSurveyQuestion();
+            viewModel.Survey = survey;
+            viewModel.Questions = questions;
+            return View(viewModel);
+        }
         public ActionResult Preview(int id)
         {
             Survey survey = this.surveyRepository.GetById(id);
@@ -37,6 +57,7 @@ namespace SurveyPortal.Controllers
         public ActionResult Edit(int id)
         {
             Survey model = this.surveyRepository.GetById(id);
+            ViewBag.SurveyForRole = GetSurveyForRoleList();
             return View(model);
         }
 
@@ -50,6 +71,7 @@ namespace SurveyPortal.Controllers
                     bool output = this.surveyRepository.Update(model);
                     ViewBag.Message = "Record updated successfully.";
                 }
+                ViewBag.SurveyForRole = GetSurveyForRoleList();
                 return View(model);
             }
             catch (Exception ex)
@@ -59,8 +81,16 @@ namespace SurveyPortal.Controllers
             }
         }
 
+        private List<SelectListItem> GetSurveyForRoleList()
+        {
+            List<SelectListItem> lst = new List<SelectListItem>();
+            lst.Add(new SelectListItem() { Text = "Faculty or Staff", Value = "Faculty or Staff" });
+            lst.Add(new SelectListItem() { Text = "Students", Value = "Students" });
+            return lst;
+        }
         public ActionResult Create()
         {
+            ViewBag.SurveyForRole = GetSurveyForRoleList();
             Survey model = new Survey();
             return View(model);
         }
@@ -75,6 +105,7 @@ namespace SurveyPortal.Controllers
                     bool output = this.surveyRepository.Insert(model);
                     ViewBag.Message = "Record addded successfully.";
                 }
+                ViewBag.SurveyForRole = GetSurveyForRoleList();
                 return View(model);
             }
             catch (Exception ex)

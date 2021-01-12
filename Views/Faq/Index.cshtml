@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>FAQ list</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -18,10 +18,10 @@
             @Html.DisplayNameFor(model => model.Answer)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UpdateOn)
+            @Html.DisplayNameFor(model => model.UpdatedOn)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UpdateBy)
+            @Html.DisplayNameFor(model => model.UpdatedBy)
         </th>
         <th></th>
     </tr>
@@ -35,10 +35,10 @@
             @Html.DisplayFor(modelItem => item.Answer)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.UpdateOn)
+            @Html.DisplayFor(modelItem => item.UpdatedOn)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.UpdateBy)
+            @Html.DisplayFor(modelItem => item.UpdatedBy)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

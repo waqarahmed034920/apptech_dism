@@ -1,23 +1,41 @@
-﻿@{
+﻿@model IEnumerable<SurveyPortal.Models.Survey>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Competition</h1>
-    <p class="lead">We are having a competetion to check the awarness of our staff about the environmental pollution in karachi.</p>
-    <p>
-        this competetion consists of a survey questionnaire which comprises general questions about the pollution level in our city
-        at the end of survey your response would be marked and position holders will be dicided by the conducting body.
-    </p>
-</div>
+<h1>List Of Available Surveys</h1>
 
-<div class="row">
-    <div class="col-md-12">
-        <h2>Introduction</h2>
-        <p>
-            this view should include the details of the competitions that are to be held.
-            Also the new surveys should be displayed in a brief and a link to participate in the survey
-        </p>
-        <p><a class="btn btn-primary" href="https://localhost:44387/Survey/take_survey/301865">Participate</a></p>
-    </div>
-</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <td></td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.ActionLink("Participate in survey", "Participate", "Survey", new { SurveyId = item.Id }, null)
+            </td>
+        </tr>
+    }
+
+</table>
