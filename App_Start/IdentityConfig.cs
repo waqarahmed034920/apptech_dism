@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using SurveyPortal.Infrastructure.Repositories;
 using SurveyPortal.Models;
 using System;
 using System.Security.Claims;

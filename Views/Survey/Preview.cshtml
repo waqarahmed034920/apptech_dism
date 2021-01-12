@@ -21,56 +21,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <label class="col-md-3">Back Button:</label>
-            <div class="col-md-3">
-                @if (Model.Survey.BackButton == true)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            </div>
-        </div>
-        <div class="col-md-6">
-            <label class="col-md-3">Renewable:</label>
-            <div class="col-md-3">
-                @if (Model.Survey.Reviewable == true)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <label class="col-md-3">Internal Only:</label>
-            <div class="col-md-3">
-                @if (Model.Survey.InternalOnly == true)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            </div>
-        </div>
-        <div class="col-md-6">
-            <label class="col-md-3">Survey For:</label>
-            <div class="col-md-3">
-                @Html.DisplayFor(model => model.Survey.SurveyFor)
-            </div>
-        </div>
-    </div>
 
     <div class="jumbotron">
         <div id="questionDiv" class="lead">

@@ -3,7 +3,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using SurveyPortal.App_Start;
-using SurveyPortal.Models;
+using SurveyPortal.Infrastructure.Repositories;
 
 namespace SurveyPortal
 {

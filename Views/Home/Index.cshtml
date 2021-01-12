@@ -18,10 +18,10 @@
     <div class="col-md-12">
         <h2>Competition Survey:</h2>
         <p>
-            @Html.DisplayFor(model => model.SurveyName)
+            @Html.DisplayFor(model => model.Survey.Name)
         </p>
         <p>
-            @Html.DisplayFor(model => model.SurveyDescription)
+            @Html.DisplayFor(model => model.Survey.Description)
         </p>
         <p>
             @Html.ActionLink("Participate in survey", "Participate", "Survey", new { SurveyId = Model.SurveyId}, null)

@@ -6,18 +6,28 @@
 
 <h2>@ViewBag.Heading</h2>
 
+@{
+    string RenderQuestions(List<SurveyPortal.Models.Option> Options)
+    {
+        return "<p>@Options.Count</p>";
+    }
+
+
+}
+
+}
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
+@Html.AntiForgeryToken()
 
 <div class="form-horizontal">
     @if (ViewBag.Message != null)
-    {
-        <div role="alert" class="alert alert-success">
-            @ViewBag.Message
-        </div>
-    }
+                    {
+    <div role="alert" class="alert alert-success">
+        @ViewBag.Message
+    </div>
+                    }
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.SurveyId)
@@ -26,29 +36,12 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Question, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Question, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Question, new { htmlAttributes = new { @class = "form-control col-md-10" } })
             @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.OptionTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.OptionTypeId, new SelectList(ViewBag.ListOfOptionTypes, "Id", "Name"), new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.OptionTypeId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.NoOfOptions, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NoOfOptions, new { htmlAttributes = new { @class = "form-control", @onblur = "addOptions('" + Model.Options + "')" } })
-            @Html.ValidationMessageFor(model => model.NoOfOptions, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div id="appdiv">
-    </div>
+    @RenderQuestions(Model.Options)
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -56,16 +49,9 @@
         </div>
     </div>
 </div>
+
 }
 
 <div>
     @Html.ActionLink("Back to List", "ListOfQuestionBySurvey", new { SurveyId = ViewBag.SurveyId })
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        var model = @Html.Raw(Json.Encode(Model));
-        addOptions(model.Options);
-    </script>
-}

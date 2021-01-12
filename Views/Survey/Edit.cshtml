@@ -55,46 +55,6 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.BackButton, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.BackButton)
-                @Html.ValidationMessageFor(model => model.BackButton, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Reviewable, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Reviewable)
-                @Html.ValidationMessageFor(model => model.Reviewable, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.InternalOnly, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.InternalOnly)
-                @Html.ValidationMessageFor(model => model.InternalOnly, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.SurveyFor, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.DropDownListFor(model => model.SurveyFor, new SelectList(ViewBag.SurveyForRole, "Text", "Value"), new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SurveyFor, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Save" class="btn btn-default" />
         </div>

@@ -14,12 +14,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Question)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OptionTypeName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NoOfOptions)
-        </th>
         <th></th>
     </tr>
 
@@ -28,12 +22,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Question)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OptionTypeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoOfOptions)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

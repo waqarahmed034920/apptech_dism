@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SurveyPortal.Models
 {
     public class SurveyQuestion
     {
         public int Id { get; set; }
-        public int SurveyId { get; set; }
         public string Question { get; set; }
 
-        [Display(Name ="Option Type Id")]
-        public int OptionTypeId { get; set; }
+        public int SurveyId { get; set; }
 
-        [Display(Name = "No Of Options")] 
-        public int NoOfOptions { get; set; }
-        public string Options { get; set; }
-        
-        [Display(Name = "Option Type")]
-        public string OptionTypeName { get; set; }
+        [ForeignKey("SurveyId")]
+        public Survey Survey { get; set; }
+
+        public List<Option> Options { get; set; }
 
     }
 }

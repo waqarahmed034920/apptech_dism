@@ -162,7 +162,6 @@
     <Compile Include="Controllers\FaqController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\OptionTypeController.cs" />
     <Compile Include="Controllers\SupportInfoController.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\SurveyQuestionController.cs" />
@@ -172,9 +171,9 @@
     <Compile Include="Infrastructure\Interface\ICompetition.cs" />
     <Compile Include="Infrastructure\Interface\IRepository.cs" />
     <Compile Include="Infrastructure\Interface\ISurveyQuestion.cs" />
+    <Compile Include="Infrastructure\Repositories\ApplicationDbContext.cs" />
     <Compile Include="Infrastructure\Repositories\CompetitionRepository.cs" />
     <Compile Include="Infrastructure\Repositories\FAQRepository.cs" />
-    <Compile Include="Infrastructure\Repositories\OptionTypeRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SupportInfoRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyQuestionRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyRepository.cs" />
@@ -184,7 +183,7 @@
     <Compile Include="Models\FAQ.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\OptionType.cs" />
+    <Compile Include="Models\Option.cs" />
     <Compile Include="Models\SupportInfo.cs" />
     <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\SurveyPortalConstants.cs" />
@@ -200,6 +199,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\SurveyPortal.mdf" />
+    <Content Include="App_Data\SurveyPortal_log.ldf">
+      <DependentUpon>SurveyPortal.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -255,9 +258,6 @@
     <Content Include="Views\Survey\Create.cshtml" />
     <Content Include="Views\Survey\Edit.cshtml" />
     <Content Include="Views\SurveyQuestion\AddQuestion.cshtml" />
-    <Content Include="Views\OptionType\Index.cshtml" />
-    <Content Include="Views\OptionType\Edit.cshtml" />
-    <Content Include="Views\OptionType\Create.cshtml" />
     <Content Include="Views\Survey\Preview.cshtml" />
     <Content Include="Views\Faq\Index.cshtml" />
     <Content Include="Views\Faq\Create.cshtml" />

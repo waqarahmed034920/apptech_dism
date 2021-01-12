@@ -12,152 +12,29 @@ namespace SurveyPortal.Infrastructure.Repositories
 {
     public class SurveyResponseRepository : IRepository<SurveyResponse>
     {
-        public SqlCommand cmd;
-        public SurveyResponseRepository()
-        {
-            var conString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            SqlConnection connection = new SqlConnection(conString);
-            cmd = new SqlCommand();
-            cmd.Connection = connection;
-            cmd.CommandType = CommandType.Text;
-        }
         public bool Delete(int Id)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "delete from surveyResponses where id = " + Id.ToString();
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            throw new NotImplementedException();
         }
 
         public List<SurveyResponse> GetAll()
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "select * from SurveyResponses";
-                SqlDataReader myReader = cmd.ExecuteReader();
-                List<SurveyResponse> lstSurveyResponse = new List<SurveyResponse>();
-                while (myReader.Read())
-                {
-                    SurveyResponse objSurveyResponse = new SurveyResponse();
-                    objSurveyResponse.Id = Convert.ToInt32(myReader["id"]);
-                    objSurveyResponse.UserId = myReader["UserId"].ToString();
-                    objSurveyResponse.ResponseDate = Convert.ToDateTime(myReader["description"]);
-                    objSurveyResponse.Response = myReader["Response"].ToString();
-                    lstSurveyResponse.Add(objSurveyResponse);
-                }
-                myReader.Close();
-                return lstSurveyResponse;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            throw new NotImplementedException();
         }
 
         public SurveyResponse GetById(int Id)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "select * from SurveyResponses where id = " + Id.ToString();
-                SqlDataReader myReader = cmd.ExecuteReader();
-                SurveyResponse objSurveyResponse = null;
-                while (myReader.Read())
-                {
-                    objSurveyResponse = new SurveyResponse();
-                    objSurveyResponse.Id = Convert.ToInt32(myReader["id"]);
-                    objSurveyResponse.UserId = myReader["UserId"].ToString();
-                    objSurveyResponse.ResponseDate = Convert.ToDateTime(myReader["description"]);
-                    objSurveyResponse.Response = myReader["Response"].ToString();
-                }
-                myReader.Close();
-                return objSurveyResponse;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            throw new NotImplementedException();
         }
 
         public bool Insert(SurveyResponse objT)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "insert into SurveyResponses(userid,ResponseDate,Response) values('" + objT.UserId + "','" + objT.ResponseDate + "','" + objT.Response + "')";
-
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            throw new NotImplementedException();
         }
 
         public bool Update(SurveyResponse objT)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "update SurveyResponses set userid = '" + objT.UserId + "', ResponseDate = '" + objT.ResponseDate + "', Response = '" + objT.Response + "' where id =  '" + objT.Id + "'";
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            throw new NotImplementedException();
         }
     }
 }
