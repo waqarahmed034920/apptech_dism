@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace SurveyPortal.Infrastructure.Interface
 {
-    public interface ICompetition : IRepository<Competition>
+    public interface ISupportInfoRepository : IRepository<SupportInfo>
     {
-        Competition GetCurrentCompetition();
     }
 }

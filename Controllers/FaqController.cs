@@ -9,10 +9,10 @@ namespace SurveyPortal.Controllers
 {
     public class FaqController : Controller
     {
-        IRepository<FAQ> faqRepository;
-        public FaqController()
+        IFAQRepository faqRepository;
+        public FaqController(IFAQRepository repo)
         {
-            this.faqRepository = new FAQRepository();
+            this.faqRepository = repo;
         }
         // GET: Faq
         public ActionResult Index()
