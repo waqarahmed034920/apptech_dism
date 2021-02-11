@@ -10,7 +10,7 @@ using System.Configuration;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
-    public class SurveyResponseRepository : IRepository<SurveyResponse>
+    public class SurveyResponseRepository : ISurveyResponseRepository
     {
         public SqlCommand cmd;
         public SurveyResponseRepository()

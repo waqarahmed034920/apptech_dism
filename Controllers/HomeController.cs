@@ -11,15 +11,16 @@ namespace SurveyPortal.Controllers
 {
     public class HomeController : Controller
     {
-        IRepository<FAQ> faqRepo;
-        IRepository<SupportInfo> supportRepo;
-        IRepository<Survey> surveyRepo;
-        public HomeController()
+        IFAQRepository faqRepo;
+        ISupportInfoRepository supportRepo;
+        ISurveyRepository surveyRepo;
+        public HomeController(IFAQRepository faqRepository, ISupportInfoRepository supportRepository, ISurveyRepository surveyRepository)
         {
-            this.surveyRepo = new SurveyRepository();
-            this.faqRepo = new FAQRepository();
-            this.supportRepo = new SupportInfoRepository();
+            this.surveyRepo = surveyRepository;
+            this.faqRepo = faqRepository;
+            this.supportRepo = supportRepository;
         }
+
         public ActionResult Index()
         {
             var surveyList = surveyRepo.GetAll();

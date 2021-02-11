@@ -12,11 +12,11 @@ namespace SurveyPortal.Controllers
     public class CompetitionController : Controller
     {
         ICompetition competitionRepo;
-        IRepository<Survey> surveyRepo;
-        public CompetitionController()
+        ISurveyRepository surveyRepo;
+        public CompetitionController(ICompetition competitionRepository, ISurveyRepository surveyRepository)
         {
-            competitionRepo = new CompetitionRepository();
-            surveyRepo = new SurveyRepository();
+            competitionRepo = competitionRepository;
+            surveyRepo = surveyRepository;
         }
         // GET: Competition
         public ActionResult Index()

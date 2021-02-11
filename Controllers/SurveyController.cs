@@ -11,15 +11,15 @@ namespace SurveyPortal.Controllers
 {
     public class SurveyController : Controller
     {
-        IRepository<Survey> surveyRepository;
+        ISurveyRepository surveyRepository;
         ISurveyQuestion surveyQuestionRepository;
         ICompetition competitionRepo;
 
-        public SurveyController()
+        public SurveyController(ISurveyRepository surveyRepo, ISurveyQuestion surveyQuestionRepo, ICompetition compRepo)
         {
-            surveyRepository = new SurveyRepository();
-            surveyQuestionRepository = new SurveyQuestionRepository();
-            this.competitionRepo = new CompetitionRepository();
+            surveyRepository = surveyRepo;
+            surveyQuestionRepository = surveyQuestionRepo;
+            this.competitionRepo = compRepo;
         }
 
         public ActionResult SurveyBoard()

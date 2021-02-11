@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
-    public class OptionTypeRepository : IRepository<OptionType>
+    public class OptionTypeRepository : IOptionTypeRepository
     {
         public SqlCommand cmd;
         public OptionTypeRepository()

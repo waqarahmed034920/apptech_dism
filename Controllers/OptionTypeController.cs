@@ -11,10 +11,10 @@ namespace SurveyPortal.Controllers
 {
     public class OptionTypeController : Controller
     {
-        IRepository<OptionType> optionTypeRepository;
-        public OptionTypeController()
+        IOptionTypeRepository optionTypeRepository;
+        public OptionTypeController(IOptionTypeRepository repo)
         {
-            optionTypeRepository = new OptionTypeRepository();
+            optionTypeRepository = repo;
         }
         // GET: OptionType
         public ActionResult Index()

@@ -48,6 +48,15 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>packages\Castle.Core.3.2.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>packages\Castle.Windsor.3.2.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor.Web.Mvc, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Castle.Windsor.Web.Mvc.1.0.7\lib\net40\Castle.Windsor.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -146,19 +155,25 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>packages\WebActivatorEx.2.0.1\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ContainerBootstrapper.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\IdentityDataInitializer.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WindsorActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompetitionController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FaqController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -171,8 +186,13 @@
     </Compile>
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
     <Compile Include="Infrastructure\Interface\ICompetition.cs" />
+    <Compile Include="Infrastructure\Interface\IFAQRepository.cs" />
+    <Compile Include="Infrastructure\Interface\IOptionTypeRepository.cs" />
     <Compile Include="Infrastructure\Interface\IRepository.cs" />
+    <Compile Include="Infrastructure\Interface\ISupportInfoRepository.cs" />
     <Compile Include="Infrastructure\Interface\ISurveyQuestion.cs" />
+    <Compile Include="Infrastructure\Interface\ISurveyRepository.cs" />
+    <Compile Include="Infrastructure\Interface\ISurveyResponseRepository.cs" />
     <Compile Include="Infrastructure\Repositories\CompetitionRepository.cs" />
     <Compile Include="Infrastructure\Repositories\FAQRepository.cs" />
     <Compile Include="Infrastructure\Repositories\OptionTypeRepository.cs" />
@@ -180,6 +200,7 @@
     <Compile Include="Infrastructure\Repositories\SurveyQuestionRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyRepository.cs" />
     <Compile Include="Infrastructure\Repositories\SurveyResponseRepository.cs" />
+    <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Competition.cs" />
     <Compile Include="Models\FAQ.cs" />
@@ -192,6 +213,7 @@
     <Compile Include="Models\SurveyQuestion.cs" />
     <Compile Include="Models\SurveyResponse.cs" />
     <Compile Include="Models\ViewModelSurveyQuestion.cs" />
+    <Compile Include="Plumbing\WindsorControllerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -201,10 +223,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\SurveyPortal.mdf" />
-    <Content Include="App_Data\SurveyPortal_log.ldf">
-      <DependentUpon>SurveyPortal.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -226,6 +244,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Readme.md" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -284,8 +303,12 @@
     <Content Include="Views\SupportInfo\ManageSupport.cshtml" />
     <Content Include="Views\SupportInfo\Create.cshtml" />
     <Content Include="Views\SupportInfo\Edit.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

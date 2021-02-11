@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
-    public class SurveyRepository : IRepository<Survey>
+    public class SurveyRepository : ISurveyRepository
     {
         public SqlCommand cmd;
         public SurveyRepository()

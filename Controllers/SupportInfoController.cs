@@ -11,10 +11,10 @@ namespace SurveyPortal.Controllers
 {
     public class SupportInfoController : Controller
     {
-        IRepository<SupportInfo> supportInfoRepo;
-        public SupportInfoController()
+        ISupportInfoRepository supportInfoRepo;
+        public SupportInfoController(ISupportInfoRepository supportInfoRepository)
         {
-            supportInfoRepo = new SupportInfoRepository();
+            supportInfoRepo = supportInfoRepository;
         }
         // GET: SupportInfo
         public ActionResult ManageSupport()

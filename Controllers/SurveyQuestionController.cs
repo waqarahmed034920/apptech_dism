@@ -12,15 +12,15 @@ namespace SurveyPortal.Controllers
     public class SurveyQuestionController : Controller
     {
 
-        IRepository<OptionType> optionTypeRepository;
-        IRepository<Survey> surveyRepository;
+        IOptionTypeRepository optionTypeRepository;
+        ISurveyRepository surveyRepository;
         ISurveyQuestion surveyQuestionRepository;
         //constructor
-        public SurveyQuestionController()
+        public SurveyQuestionController(IOptionTypeRepository otRepo, ISurveyRepository surveyRepo, ISurveyQuestion surveyQuestionRepo)
         {
-            optionTypeRepository = new OptionTypeRepository();
-            surveyRepository = new SurveyRepository();
-            surveyQuestionRepository = new SurveyQuestionRepository();
+            optionTypeRepository = otRepo;
+            surveyRepository = surveyRepo;
+            surveyQuestionRepository = surveyQuestionRepo;
         }
         // GET: SurveyQuestion
         public ActionResult ListOfQuestionBySurvey(int SurveyId)

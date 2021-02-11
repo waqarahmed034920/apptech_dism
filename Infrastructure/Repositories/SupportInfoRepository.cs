@@ -10,7 +10,7 @@ using System.Web;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
-    public class SupportInfoRepository : IRepository<SupportInfo>
+    public class SupportInfoRepository : ISupportInfoRepository
     {
         public SqlCommand cmd;
 
