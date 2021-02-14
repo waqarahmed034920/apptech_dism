@@ -1,161 +1,67 @@
 ﻿using SurveyPortal.Infrastructure.Interface;
 using SurveyPortal.Models;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using System.Linq;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
     public class OptionTypeRepository : IOptionTypeRepository
     {
-        public SqlCommand cmd;
+        private ApplicationDbContext DB;
+
         public OptionTypeRepository()
         {
-            var conString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            SqlConnection connection = new SqlConnection(conString);
-            cmd = new SqlCommand();
-            cmd.Connection = connection;
-            cmd.CommandType = CommandType.Text;
+             DB = ApplicationDbContext.Create();
         }
+
+
         public bool Delete(int Id)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "delete from OptionTypes where id = " + Id.ToString();
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            var option = DB.OptionTypes
+            .Where(o => o.Id == Id)
+            .FirstOrDefault();
+            DB.OptionTypes.Remove(option);
+            DB.SaveChanges();
+            return true;
         }
 
         public List<OptionType> GetAll()
         {
-            try
+            var query = from o in DB.OptionTypes
+               select o;
+            List<OptionType> OptionTypes = new List<OptionType>();
+            foreach (var obj in query.ToList())
             {
-                cmd.Connection.Open();
-                cmd.CommandText = "select * from OptionTypes";
-                SqlDataReader myReader = cmd.ExecuteReader();
-                List<OptionType> lstOptionType = new List<OptionType>();
-                while (myReader.Read())
-                {
-                    OptionType objOptionType = new OptionType();
-                    objOptionType.Id = Convert.ToInt32(myReader["id"]);
-                    objOptionType.Name = myReader["Name"].ToString();
-                    objOptionType.Description = myReader["Description"].ToString();
-                    lstOptionType.Add(objOptionType);
-                }
-                myReader.Close();
-                return lstOptionType;
+                OptionType objopt = new OptionType();
+                objopt.Id = obj.Id;
+                objopt.Name = obj.Name;
+                objopt.Description = obj.Description;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            return query.ToList();
         }
 
         public OptionType GetById(int Id)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "select * from OptionTypes where id = " + Id.ToString();
-                SqlDataReader myReader = cmd.ExecuteReader();
-                OptionType objOptionType = null;
-                while (myReader.Read())
-                {
-                     objOptionType = new OptionType();
-                    objOptionType.Id = Convert.ToInt32(myReader["id"]);
-                    objOptionType.Name = myReader["Name"].ToString();
-                    objOptionType.Description = myReader["Description"].ToString();
-                }
-                myReader.Close();
-                return objOptionType;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            var query1 = from O in DB.OptionTypes
+                         where (O.Id == Id)
+                         select O;
+            return query1.FirstOrDefault();
         }
 
         public bool Insert(OptionType objT)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "insert into OptionTypes(Name, Description ) values('" + objT.Name + "','" + objT.Description +  "')";
-
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            DB.OptionTypes.Add(objT);
+            DB.SaveChanges();
+            return true;
         }
 
         public bool Update(OptionType objT)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "update OptionTypes set name = '" + objT.Name +"', Description = '" + objT. Description + "' where id =  '" + objT.Id + "'";
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            var existing = DB.OptionTypes.Where(o => o.Id == objT.Id).FirstOrDefault();
+            DB.Entry(existing).CurrentValues.SetValues(objT);
+            DB.SaveChanges();
+            return true;
         }
     }
 }

@@ -1,169 +1,70 @@
 ﻿using SurveyPortal.Infrastructure.Interface;
 using SurveyPortal.Models;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
     public class FAQRepository : IFAQRepository
     {
-        public SqlCommand cmd;
-        //Constroctor
+        private ApplicationDbContext DB;
+
         public FAQRepository()
         {
-            var conString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            SqlConnection connection = new SqlConnection(conString);
-            cmd = new SqlCommand();
-            cmd.Connection = connection;
-            cmd.CommandType = CommandType.Text;
+            DB = ApplicationDbContext.Create();
         }
 
         public bool Delete(int Id)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "delete from FAQs where id = " + Id.ToString();
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            FAQ fAQ = DB.FAQs
+                .Where(f => f.Id == Id)
+                .FirstOrDefault();
+            DB.FAQs.Remove(fAQ);
+            DB.SaveChanges();
+            return true;
         }
-
         public List<FAQ> GetAll()
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "select * from FAQs";
-                SqlDataReader myReader = cmd.ExecuteReader();
-                List<FAQ> faq = new List<FAQ>();
-                while (myReader.Read())
-                {
-                    FAQ objfaq = new FAQ();
-                    objfaq.Id = Convert.ToInt32(myReader["id"]);
-                    objfaq.Question = myReader["Question"].ToString();
-                    objfaq.Answer = myReader["Answer"].ToString();
-                    objfaq.UpdatedOn = Convert.ToDateTime(myReader["UpdatedOn"]);
-                    objfaq.UpdatedBy = myReader["UpdatedBy"].ToString();
-                    faq.Add(objfaq);
-                }
-                myReader.Close();
-                return faq;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            // method syntax
+            // return DB.FAQs.ToList();
+
+            // query syntax
+            var query = from f in DB.FAQs
+                        select f;
+            return query.ToList();            
         }
 
         public FAQ GetById(int Id)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "select * from FAQs where id = " + Id.ToString();
-                SqlDataReader myReader = cmd.ExecuteReader();
-                FAQ objfaq = null;
-                while (myReader.Read())
-                {
-                    objfaq = new FAQ();
-                    objfaq.Id = Convert.ToInt32(myReader["id"]);
-                    objfaq.Question = myReader["Question"].ToString();
-                    objfaq.Answer = myReader["Answer"].ToString();
-                    objfaq.UpdatedOn = Convert.ToDateTime(myReader["UpdatedOn"]);
-                    objfaq.UpdatedBy = myReader["UpdatedBy"].ToString();
-                }
-                myReader.Close();
-                return objfaq;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            // method syntax;
+            FAQ faq = DB.FAQs
+                .Where(f => f.Id == Id)
+                .FirstOrDefault();
+            return faq;
+
+            // query syntax
+            //var query = from f in DB.FAQs
+            //             where f.Id == Id
+            //             select f;
+            //return query.FirstOrDefault();
         }
 
         public bool Insert(FAQ objT)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "insert into FAQs(Question, Answer,UpdatedOn,UpdatedBy ) values('" + objT.Question + "','" + objT.Answer + "','" + objT.UpdatedOn + "','" + objT.UpdatedBy + "')";
-
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            DB.FAQs.Add(objT);
+            DB.SaveChanges();
+            return true;
         }
 
         public bool Update(FAQ objT)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "update FAQs set Question = '" + objT.Question + "', Answer = '" + objT.Answer + "' ,UpdatedOn = '" + objT.UpdatedOn + "' ,UpdatedBy = '" + objT.UpdatedBy + "' where id =  '" + objT.Id + "'";
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            var existing = DB.FAQs.Where(f => f.Id == objT.Id).FirstOrDefault();
+            DB.Entry(existing).CurrentValues.SetValues(objT);
+            DB.SaveChanges();
+            return true;
+            
         }
     }
 }
