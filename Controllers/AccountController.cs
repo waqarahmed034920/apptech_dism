@@ -104,6 +104,7 @@ namespace SurveyPortal.Controllers
             }
 
             var user = UserManager.FindByEmailAsync(model.Email).Result;
+            //var user = UserManager.FindByName(model.Email);
             if ((user.RegistrationAccepted.HasValue && !user.RegistrationAccepted.Value) || !user.RegistrationAccepted.HasValue)
             {
                 ModelState.AddModelError("", "Your registration is still in progress.");

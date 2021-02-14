@@ -19,7 +19,7 @@ namespace SurveyPortal.Controllers
         {
             surveyRepository = surveyRepo;
             surveyQuestionRepository = surveyQuestionRepo;
-            this.competitionRepo = compRepo;
+            competitionRepo = compRepo;
         }
 
         public ActionResult SurveyBoard()

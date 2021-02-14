@@ -1,215 +1,112 @@
 ﻿using SurveyPortal.Infrastructure.Interface;
 using SurveyPortal.Models;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
     public class CompetitionRepository : ICompetition
     {
-        public SqlCommand cmd;
+        private ApplicationDbContext DB;
+
         public CompetitionRepository()
         {
-            var conString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            SqlConnection connection = new SqlConnection(conString);
-            cmd = new SqlCommand();
-            cmd.Connection = connection;
-            cmd.CommandType = CommandType.Text;
+            DB = ApplicationDbContext.Create();
         }
 
         public Competition GetCurrentCompetition()
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competitions AS C inner join Surveys AS S ON c.SurveyId = s.Id";
-                SqlDataReader myReader = cmd.ExecuteReader();
-                Competition objCompetition = new Competition();
-                while (myReader.Read())
-                {
-                    objCompetition.Id = Convert.ToInt32(myReader["id"]);
-                    objCompetition.Introduction = myReader["Introduction"].ToString();
-                    objCompetition.Details = myReader["Details"].ToString();
-                    objCompetition.StartDate = Convert.ToDateTime(myReader["StartDate"]);
-                    objCompetition.EndDate = Convert.ToDateTime(myReader["EndDate"]);
-                    objCompetition.RoleId = Convert.ToInt32(myReader["RoleId"].ToString());
-                    objCompetition.SurveyId = Convert.ToInt32(myReader["SurveyId"]);
-                    objCompetition.SurveyName = myReader["Name"].ToString();
-                    objCompetition.SurveyDescription = myReader["Description"].ToString();
-                }
-                myReader.Close();
-                return objCompetition;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            var query = from c in DB.Competitions
+                        join s in DB.Surveys on c.SurveyId equals s.Id
+                        select new
+                        {
+                            c,
+                            s
+                        };
+
+            var data = query.FirstOrDefault();
+            Competition objCompetition = new Competition();
+            objCompetition.Id = data.c.Id;
+            objCompetition.Introduction = data.c.Introduction;
+            objCompetition.Details = data.c.Details;
+            objCompetition.StartDate = data.c.StartDate;
+            objCompetition.EndDate = data.c.EndDate;
+            objCompetition.RoleId = data.c.RoleId;
+            objCompetition.SurveyId = data.c.SurveyId;
+            objCompetition.SurveyName = data.s.Name;
+            objCompetition.SurveyDescription = data.s.Description;
+
+            return objCompetition;
         }
         public bool Delete(int Id)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "delete from Competitions where id = " + Id.ToString();
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            Competition competition = DB.Competitions
+                .Where(c => c.Id == Id)
+                .FirstOrDefault();
+            DB.Competitions.Remove(competition);
+            DB.SaveChanges();
+            return true;
         }
 
         public List<Competition> GetAll()
         {
-            try
+            var query = from c in DB.Competitions
+                        join s in DB.Surveys on c.SurveyId equals s.Id
+                        select new { c, s };
+
+            List<Competition> competition = new List<Competition>();
+            foreach (var obj in query.ToList())
             {
-                cmd.Connection.Open();
-                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competitions AS C inner join Surveys AS S ON c.SurveyId = s.Id";
-                SqlDataReader myReader = cmd.ExecuteReader();
-                List<Competition> competition = new List<Competition>();
-                while (myReader.Read())
-                {
-                    Competition objCompetition = new Competition();
-                    objCompetition.Id = Convert.ToInt32(myReader["id"]);
-                    objCompetition.Introduction = myReader["Introduction"].ToString();
-                    objCompetition.Details = myReader["Details"].ToString();
-                    objCompetition.SurveyId = Convert.ToInt32(myReader["SurveyId"]);
-                    objCompetition.SurveyName  = myReader["Name"].ToString();
-                    objCompetition.SurveyDescription = myReader["Description"].ToString();
-                    objCompetition.StartDate = Convert.ToDateTime(myReader["StartDate"]);
-                    objCompetition.EndDate = Convert.ToDateTime(myReader["EndDate"]);
-                    objCompetition.RoleId = Convert.ToInt32(myReader["RoleId"].ToString());
-                    competition.Add(objCompetition);
-                }
-                myReader.Close();
-                return competition;
+                Competition objCompetition = new Competition();
+                objCompetition.Id = obj.c.Id;
+                objCompetition.Introduction = obj.c.Introduction;
+                objCompetition.Details = obj.c.Details;
+                objCompetition.SurveyId = obj.c.SurveyId;
+                objCompetition.SurveyName = obj.s.Name;
+                objCompetition.SurveyDescription = obj.s.Description;
+                objCompetition.StartDate = obj.c.StartDate;
+                objCompetition.EndDate = obj.c.EndDate;
+                objCompetition.RoleId = obj.c.RoleId;
+                competition.Add(objCompetition);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            return competition;
         }
 
         public Competition GetById(int Id)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "SELECT c.*, s.Name, s.Description FROM Competitions AS C inner join Surveys AS S ON c.SurveyId = s.Id where c.id = " + Id.ToString();
-                SqlDataReader myReader = cmd.ExecuteReader();
-                Competition objCompetition = new Competition();
-                while (myReader.Read())
-                {
-                    objCompetition.Id = Convert.ToInt32(myReader["id"]);
-                    objCompetition.Introduction = myReader["Introduction"].ToString();
-                    objCompetition.Details = myReader["Details"].ToString();
-                    objCompetition.StartDate = Convert.ToDateTime(myReader["StartDate"]);
-                    objCompetition.EndDate = Convert.ToDateTime(myReader["EndDate"]);
-                    objCompetition.RoleId = Convert.ToInt32(myReader["RoleId"].ToString());
-                    objCompetition.SurveyId = Convert.ToInt32(myReader["SurveyId"]);
-                    objCompetition.SurveyName = myReader["Name"].ToString();
-                    objCompetition.SurveyDescription = myReader["Description"].ToString();
-                }
-                myReader.Close();
-                return objCompetition;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            var query = from c in DB.Competitions
+                        join s in DB.Surveys on c.SurveyId equals s.Id
+                        where c.Id == Id
+                        select new { c, s };
+
+            var data = query.FirstOrDefault();
+            Competition objCompetition = new Competition();
+            objCompetition.Id = data.c.Id;
+            objCompetition.Introduction = data.c.Introduction;
+            objCompetition.Details = data.c.Details;
+            objCompetition.StartDate = data.c.StartDate;
+            objCompetition.EndDate = data.c.EndDate;
+            objCompetition.RoleId = data.c.RoleId;
+            objCompetition.SurveyId = data.s.Id;
+            objCompetition.SurveyName = data.s.Name;
+            objCompetition.SurveyDescription = data.s.Description;
+            return objCompetition;
         }
 
         public bool Insert(Competition objT)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "Insert into Competitions(SurveyId, introduction, details, startdate, enddate, roleid) values('" + objT.SurveyId + "', '" + objT.Introduction + "','" + objT.Details + "','" + objT.StartDate + "','" + objT.EndDate + "', '"+ objT.RoleId +"')";
-
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            DB.Competitions.Add(objT);
+            DB.SaveChanges();
+            return true;
         }
 
         public bool Update(Competition objT)
         {
-            try
-            {
-                string query = "update Competitions set introduction = '"+ objT.Introduction +"', ";
-                query += "details = '" + objT.Details + "',";
-                query += "StartDate = '" + objT.StartDate + "',";
-                query += "EndDate = '" + objT.EndDate + "',";
-                query += "RoleId = '" + objT.RoleId + "', ";
-                query += "SurveyId = '" + objT.SurveyId + "' ";
-                query += "Where Id = '" + objT.Id + "'";
-                cmd.Connection.Open();
-                cmd.CommandText = query;
-
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            var existing = DB.Competitions.Where(c => c.Id == objT.Id).First();
+            DB.Entry(existing).CurrentValues.SetValues(objT);
+            DB.SaveChanges();
+            return true;
         }
     }
 }

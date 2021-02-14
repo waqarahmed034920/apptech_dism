@@ -1,180 +1,71 @@
 ﻿using SurveyPortal.Infrastructure.Interface;
 using SurveyPortal.Models;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using System.Linq;
 
 namespace SurveyPortal.Infrastructure.Repositories
 {
     public class SurveyRepository : ISurveyRepository
     {
-        public SqlCommand cmd;
+        private ApplicationDbContext DB;
+
         public SurveyRepository()
         {
-            var conString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            SqlConnection connection = new SqlConnection(conString);
-            cmd = new SqlCommand();
-            cmd.Connection = connection;
-            cmd.CommandType = CommandType.Text;
+            DB = ApplicationDbContext.Create();
         }
         public bool Delete(int Id)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "delete from surveys where id = " + Id.ToString();
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            Survey surveyss = DB.Surveys
+               .Where(s => s.Id == Id)
+               .FirstOrDefault();
+            DB.Surveys.Remove(surveyss);
+            DB.SaveChanges();
+            return true;
         }
 
         public List<Survey> GetAll()
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "select * from Surveys";
-                SqlDataReader myReader = cmd.ExecuteReader();
-                List<Survey> lstSurvey = new List<Survey>();
-                while (myReader.Read())
-                {
-                    Survey objSurvey = new Survey();
-                    objSurvey.Id = Convert.ToInt32(myReader["id"]);
-                    objSurvey.Name = myReader["Name"].ToString();
-                    objSurvey.StartDate = Convert.ToDateTime(myReader["StartDate"]);
-                    objSurvey.EndDate = Convert.ToDateTime(myReader["EndDate"]);
-                    objSurvey.BackButton = Convert.ToBoolean(myReader["BackButton"]);
-                    objSurvey.Reviewable = Convert.ToBoolean(myReader["Reviewable"]);
-                    objSurvey.InternalOnly = Convert.ToBoolean(myReader["InternalOnly"]);
-                    objSurvey.SurveyFor = myReader["SurveyFor"].ToString();
-                    lstSurvey.Add(objSurvey);
-                }
-                myReader.Close();
-                return lstSurvey;
 
-            }
-            catch (Exception ex)
+            var query = from su in DB.Surveys
+                        select su;
+            List<Survey> Surveys = new List<Survey>();
+            foreach (var obj in query.ToList())
             {
-                throw ex;
+                Survey objsur = new Survey();
+                objsur.Id = obj.Id;
+                objsur.Name= obj.Name;
+                objsur.StartDate= obj.StartDate;
+                objsur.EndDate= obj.EndDate;
+                objsur.BackButton= obj.BackButton;
+                objsur.Reviewable= obj.Reviewable;
+                objsur.InternalOnly = obj.InternalOnly;
+                objsur.SurveyFor= obj.SurveyFor;
             }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            return Surveys;
         }
 
         public Survey GetById(int Id)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "select * from Surveys where id = " + Id.ToString();
-                SqlDataReader myReader = cmd.ExecuteReader();
-                Survey objSurvey = null;
-                while (myReader.Read())
-                {
-                    objSurvey = new Survey();
-                    objSurvey.Id = Convert.ToInt32(myReader["id"]);
-                    objSurvey.Name = myReader["Name"].ToString();
-                    objSurvey.StartDate = Convert.ToDateTime(myReader["StartDate"]);
-                    objSurvey.EndDate = Convert.ToDateTime(myReader["EndDate"]);
-                    objSurvey.BackButton = Convert.ToBoolean(myReader["BackButton"]);
-                    objSurvey.Reviewable = Convert.ToBoolean(myReader["Reviewable"]);
-                    objSurvey.InternalOnly = Convert.ToBoolean(myReader["InternalOnly"]);
-                    objSurvey.SurveyFor = myReader["SurveyFor"].ToString();
-                }
-                myReader.Close();
-                return objSurvey;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            var query1 = from s in DB.Surveys
+                         where (s.Id == Id)
+                         select s;
+            return query1.FirstOrDefault();
         }
 
         public bool Insert(Survey objT)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "insert into Surveys(name, startdate, enddate, BackButton, Reviewable, InternalOnly, SurveyFor) values('" + objT.Name + "','" + objT.StartDate + "','" + objT.EndDate + "', '" + objT.BackButton + "', '" + objT.Reviewable + "', '" + objT.InternalOnly + "', '" + objT.SurveyFor + "')";
-
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            DB.Surveys.Add(objT);
+            DB.SaveChanges();
+            return true;
         }
 
         public bool Update(Survey objT)
         {
-            try
-            {
-                cmd.Connection.Open();
-                cmd.CommandText = "update Surveys set name = '" + objT.Name + 
-                    "', StartDate = '" + objT.StartDate + 
-                    "', endDate = '" + objT.EndDate +
-                    "', BackButton= '" + objT.BackButton +
-                    "', Reviewable= '" + objT.Reviewable +
-                    "', InternalOnly= '" + objT.InternalOnly +
-                    "', SurveyFor = '" + objT.SurveyFor +
-                    "' where id =  '" + objT.Id + "'";
-                int noOfRowsAffected = cmd.ExecuteNonQuery();
-                if (noOfRowsAffected >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            var existing = DB.Surveys.Where(c => c.Id == objT.Id).First();
+            DB.Entry(existing).CurrentValues.SetValues(objT);
+            DB.SaveChanges();
+            return true;
         }
     }
 }
